@@ -20,7 +20,12 @@ for l in fi:
     fo.write(" <!--")
     if s in map.data_to_xml:
         k = map.data_to_xml[s]
-        fo.write(database.rec_table[k] + "." + k)
+        table = None
+        try:
+            table = database.rec_table[k]
+        except KeyError:
+            table = "NO_TABLE_FOUND"
+        fo.write(table + "." + k)
     else:
         fo.write("NOT FOUND")
         print(s)
