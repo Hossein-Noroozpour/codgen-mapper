@@ -4,6 +4,8 @@ import database
 fi = open("E:\\Projects\\FRM32 Mapping\\FRM32_1395.xml", "r")
 fo = open("E:\\Projects\\FRM32 Mapping\\FRM32_1395-explained.xml", "w")
 
+query_cols = ""
+
 for l in fi:
     l = l[:len(l) - 1]
     s = l.strip()
@@ -25,8 +27,12 @@ for l in fi:
             table = database.rec_table[k]
         except KeyError:
             table = "NO_TABLE_FOUND"
-        fo.write(table + "." + k)
+        col = table + "." + k
+        fo.write(col)
+        query_cols += col + ", "
     else:
         fo.write("NOT FOUND")
         print(s)
     fo.write("-->")
+
+print(query_cols)
