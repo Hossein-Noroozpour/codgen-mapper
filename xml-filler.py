@@ -3,6 +3,8 @@ from database import rec_table
 from map import *
 import pypyodbc
 import copy
+import convertors
+
 
 con = pypyodbc.connect('Driver={SQL Server};Server=ITS-H-NOROUZPOU\SQLEXPRESS;Database=Eris;uid=sa;pwd=123456')
 csr = con.cursor()
@@ -78,6 +80,15 @@ csr.execute(query)
 xml_file = 0
 
 
+def convert(v, t):
+    if v is None:
+        return ""
+    try:
+        return convertors.v2x[t](v)
+    except KeyError:
+        return str(v)
+
+
 def fill_employee(employee_element):
     csr.execute(employee_query)
     employee_rows = csr.fetchall()
@@ -98,7 +109,7 @@ def fill_employee(employee_element):
                 index = columns_index[column]
             else:
                 continue
-            child.text = str(employee_row[index])
+            child.text = convert(employee_row[index], tag)
         elements.append(element)
     return elements
 
@@ -117,7 +128,6 @@ def fill_xml(row, file_name):
     for ch in ret:
         t = ch.tag.strip()
         if t == "table2_employees_demographic_data":
-            print("dfdfsdfsdfsdfsdfsdfsdfsdfsdfsdsdfs")
             chcopy = copy.deepcopy(ch)
             ret.remove(ch)
             appendee_employee = fill_employee(chcopy)
@@ -128,7 +138,7 @@ def fill_xml(row, file_name):
         else:
             continue
         if col in rec_table:
-            ch.text = str(row[col_index])
+            ch.text = convert(row[col_index], t)
             col_index += 1
         else:
             continue
