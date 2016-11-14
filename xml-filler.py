@@ -95,8 +95,27 @@ def fill_employee(employee_element):
     elements = []
     for employee_row in employee_rows:
         element = copy.deepcopy(employee_element)
+        # find nationality
+        nationality = convert(employee_row[columns_index["NationalityId"]], 'nationality')
+        if "01" == nationality:
+            nationality = 1
+        elif "02" == nationality:
+            nationality = 2
+        else:
+            nationality = 0
+        element.find('nationality')
         for child in element:
             tag = child.tag.strip()
+            # nationality
+            if tag == "id":
+                if nationality != 1:
+                    element.remove(child)
+                    continue
+            elif tag == "foreign_national_comprehensive_code":
+                if nationality != 2:
+                    element.remove(child)
+                    continue
+
             column = ""
             index = -1
             if tag in data_to_xml:
@@ -144,7 +163,7 @@ def fill_xml(row, file_name):
             continue
     for element in appendee_employee:
         ret.append(element)
-    tree.write("E:\\Projects\\FRM32 Mapping\\output\\" + str(file_name) + ".xml")
+    tree.write("E:\\Projects\\FRM32 Mapping\\output\\" + str(file_name) + ".xml", encoding="UTF-8", xml_declaration=True)
 
 rows = csr.fetchall()
 

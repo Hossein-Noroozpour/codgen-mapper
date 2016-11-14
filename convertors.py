@@ -51,53 +51,84 @@ def j_date_filler(s):
 def a_date_filler(s):
     if s is None:
         return ""
-    d = int(s % 100)
+    jd = int(s % 100)
     ss = int(s / 100)
-    m = int(ss % 100)
-    y = int(ss / 100)
+    jm = int(ss % 100)
+    jy = int(ss / 100)
 
-    if y <= 979:
+    if jy <= 979:
         gy = 621
     else:
         gy = 1600
-    if y > 979:
-        y -= 979
+    if jy > 979:
+        jy -= 979
 
-    gd = 365 * y + int(y / 33) * 8 + int(((y % 33) + 3) / 4) + 78 + d
-    if m < 7:
-        gd += (m - 1) * 31
+    days = 365 * jy + int(jy / 33) * 8 + int(((jy % 33) + 3) / 4) + 78 + jd
+    if jm < 7:
+        days += (jm - 1) * 31
     else:
-        gd += (m - 7) * 30 + 186
-    gy += 400 * int(gd / 146097)
-    gd %= 146097
-    if gd > 36524:
-        gd -= 1
-        gy += 100 * int(gd / 36524)
-        gd %= 36524
-        if gd >= 365:
-            gd += 1
-    gy += 4 * int(gd / 1461)
-    gd %= 1461
-    gy += int((gd - 1) / 365)
-    if gd > 365:
-        gd = (gd - 1) % 365
-    gd += 1
+        days += (jm - 7) * 30 + 186
+    gy += 400 * int(days / 146097)
+    days %= 146097
+    if days > 36524:
+        days -= 1
+        gy += 100 * int(days / 36524)
+        days %= 36524
+        if days >= 365:
+            days += 1
+    gy += 4 * int(days / 1461)
+    days %= 1461
+    gy += int((days - 1) / 365)
+    if days > 365:
+        days = (days - 1) % 365
+    gd = days + 1
     array = [31]
     if ((gy % 4) == 0 and (gy % 100) != 0) or (gy % 400 == 0):
         array.append(29)
     else:
         array.append(28)
     array += [31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
+    gm = 1
     for v in array:
         if gd <= v:
             break
         gd -= v
+        gm += 1
     return '%04d' % gy + "-" + '%02d' % gm + "-" + '%02d' % gd
 
+
+def return_month_filler(s):
+    if s is None:
+        return ""
+    return str(s).zfill(2)
+
+
+def identification_info_changed_filler(s):
+    return "Y"
+
+
+def nationality_filler(s):
+    if s is None:
+        return ""
+    n = int(s)
+    if n == 1 or n == 10244:
+        return "01"
+    if n == 9057:
+        return "02"
+
+
+def unicode_filler(s):
+    # ss = s.decode("utf-8")
+    return s
+
 v2x["salary_payment_art_86"] = bool_filler
-v2x["allocation_payment_jornal"] = date_filler
+v2x["allocation_payment_jornal"] = a_date_filler
 v2x["salary_payment_note_86"] = bool_filler
-v2x["identification_info_changed"] = bool_filler
+v2x["return_month"] = return_month_filler
+v2x["identification_info_changed"] = identification_info_changed_filler
+v2x["nationality"] = nationality_filler
+v2x["employee_name"] = unicode_filler
+v2x["employee_surname"] = unicode_filler
 v2x["employee_position_fixed_rate"] = bool_filler
 v2x["last_month_salary"] = bool_filler
 v2x["payment_done_by_original_provision_wagepayer"] = bool_filler
