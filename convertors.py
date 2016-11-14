@@ -49,7 +49,7 @@ def j_date_filler(s):
 
 
 def a_date_filler(s):
-    if s is None:
+    if s is None or len(str(s)) < 8:
         return ""
     jd = int(s % 100)
     ss = int(s / 100)
@@ -121,6 +121,111 @@ def unicode_filler(s):
     # ss = s.decode("utf-8")
     return s
 
+
+def country_filler(s):
+    from countries import countries
+    return countries[s]
+
+
+def employee_degree_filler(s):
+    if s is None:
+        return ""
+    if s == 8355 or s == 10176 or s == 1:
+        return "01"
+    if 9034 == s or s == 6:
+        return "06"
+    if 9372 == s or s == 4:
+        return "04"
+    if 9397 == s or s == 7:
+        return "07"
+    if 9636 == s or s == 5:
+        return "05"
+    if 9838 == s or s == 2:
+        return "02"
+    if 10175 == s or s == 3:
+        return "03"
+
+
+def employee_insurance_type_filler(s):
+    if s is None:
+        return ""
+    if s == 9120 or s == 2:
+        return "02"
+    if s == 9223 or s == 1:
+        return "01"
+    if s == 9253 or s == 4:
+        return "04"
+    if s == 10095 or s == 5:
+        return "05"
+    if s == 10738 or s == 3:
+        return "03"
+
+
+def employment_type_filler(s):
+    if s is None:
+        return ""
+    if s == 7849:
+        return "06"
+    if s == 8251:
+        return "01"
+    if s == 8524:
+        return "06"
+    if s == 9228:
+        return "04"
+    if s == 9248:
+        return "05"
+    if s == 9387:
+        return "06"
+    if s == 9398:
+        return "06"
+    if s == 9783:
+        return "03"
+    if s == 9821:
+        return "06"
+    if s == 9968:
+        return "06"
+    if s == 10199:
+        return "06"
+    return "06"
+
+
+def allocated_area_status_filler(s):
+    if s is None or len(str(s).strip()) == 0:
+        return ""
+    if s == 10388 or s == 1:
+        return "01"   # عادي
+    if s == 10389 or s == 2:
+        return "02"   # مناطق کمتر توسعه يافته
+    if s == 10391 or s == 3:
+        return "03"   # مناطق آزاد تجاري
+    return ""
+
+
+def employee_status_filler(s):
+    if s is None or len(str(s).strip()) == 0:
+        return ""
+    if s == 8225 or s == 2:
+        return "02"  # جانبازان انقلاب اسلامي و جنگ تحميلي
+    if s == 8410 or s == 3:
+        return "03"  # فرزندان شاهد در طول برنامه پنجم توسعه (90 تا 94)
+    if s == 8578 or s == 5:
+        return "05"  # مشمولان قانون استخدامي وزارت اطلاعات
+    if s == 8794:
+        return "05"  # شاغلين در مناطق کمتر توسعه يافته(50% معافيت م 92)
+    if s == 8856 or s == 1:
+        return "01"  # عدم معافيت
+    if s == 9531:
+        return "01"  # شاغلين در مناطق آزاد تجاري - صنعتي
+    if s == 9882:
+        return "05"  # پرسنل نيروهاي مسلح جمهوري اسلامي ايران اعم از نظام
+    if s == 9932 or s == 4:
+        return "04"  # آزادگان
+    if s == 10739 or s == 7:
+        return "07"  # اجتناب از اخذ ماليات مضاعف
+    if s == 10740 or s == 6:
+        return "06"  # ساير مشمولين بند 14 ماده 91
+    return ""
+
 v2x["salary_payment_art_86"] = bool_filler
 v2x["allocation_payment_jornal"] = a_date_filler
 v2x["salary_payment_note_86"] = bool_filler
@@ -129,9 +234,18 @@ v2x["identification_info_changed"] = identification_info_changed_filler
 v2x["nationality"] = nationality_filler
 v2x["employee_name"] = unicode_filler
 v2x["employee_surname"] = unicode_filler
+v2x["country"] = country_filler
+v2x["employee_degree"] = employee_degree_filler
+v2x["employee_insurance_type"] = employee_insurance_type_filler
 v2x["employee_position_fixed_rate"] = bool_filler
+v2x["employment_date"] = a_date_filler
+v2x["employment_type"] = employment_type_filler
+v2x["allocated_area_status"] = allocated_area_status_filler
 v2x["last_month_salary"] = bool_filler
-v2x["payment_done_by_original_provision_wagepayer"] = bool_filler
+v2x["work_end_date"] = a_date_filler
+v2x["employee_status"] = employee_status_filler
+v2x["payment_done_by_original_provision_wage_payer"] = bool_filler
+
 v2x["end_month_salary"] = bool_filler
 v2x["identification_info_changed_t4"] = bool_filler
 
