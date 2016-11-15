@@ -1,7 +1,7 @@
 import map
 import database
 
-fi = open("E:\\Projects\\FRM32 Mapping\\FRM32_1395.xml", "r")
+fi = open("E:\\Projects\\FRM32 Mapping\\FRM32_1395-exp.xml", "r")
 fo = open("E:\\Projects\\FRM32 Mapping\\FRM32_1395-explained.xml", "w")
 
 query_cols = ""
@@ -11,6 +11,8 @@ for l in fi:
     s = l.strip()
     t = ""
     s = s.split('>')[0].split('<')[1].strip()
+    if s[len(s)-1] == '/':
+        s = s[0:len(s)-1].strip()
     # s = s[]
     fo.write('\n')
     fo.write(l)
