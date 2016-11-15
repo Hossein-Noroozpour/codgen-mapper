@@ -226,8 +226,98 @@ def employee_status_filler(s):
         return "06"  # ساير مشمولين بند 14 ماده 91
     return ""
 
+
+def paid_type_filler(s):
+    if s is None or len(str(s).strip()) == 0:
+        return ""
+    return str(s).zfill(2)
+
+
+def currency_type_filler(s):
+    if s is None or len(str(s).strip()) == 0:
+        return ""
+    if s == 10504:
+        return "XOF"
+    if s == 10506:
+        return "XAF"
+    if s == 10507:
+        return "GBP"
+    if s == 10518:
+        return "MOP"
+    if s == 10522:
+        return "CLP"
+    if s == 10542:
+        return "AUD"
+    if s == 10543:
+        return "USD"
+    if s == 10576:
+        return "ZAR"
+    if s == 10586:
+        return "MVR"
+    if s == 10587:
+        return "IRR"
+    if s == 10588:
+        return "SAR"
+    if s == 10589:
+        return "OMR"
+    if s == 10591:
+        return "YER"
+    if s == 10596:
+        return "TJS"
+    if s == 10661:
+        return "EUR"
+    print("Unknown currency, code is:", s)
+    return ""
+    # if s == :
+    #     return ""
+
+
+def housing_flag_filler(s):
+    if s is None or len(str(s).strip()) == 0:
+        return ""
+    if s == 8379:
+        return "03"  # 113	استفاده از مسکن بدون اثاثيه
+    if s == 8781:
+        return "01"  # 113	عدم استفاده از مسکن
+    if s == 9799:
+        return "02"  # 113	استفاده از مسکن با اثاثيه
+
+
+def vehicle_flag_filler(s):
+    if s is None or len(str(s).strip()) == 0:
+        return ""
+    if s == 8478:
+        return "01"  # 114	عدم استفاده از اتومبيل
+    if s == 8913:
+        return "03"  # 114	استفاده از اتومبيل بدون راننده
+    if s == 9188:
+        return "02"  # 114	استفاده از اتومبيل با راننده
+
+
+def payment_type_filler(s):
+    if s is None or len(str(s).strip()) == 0:
+        return ""
+    if s == 8384:
+        return "06"  # 104	واريز نقدي
+    if s == 9385:
+        return ""  	# 104	ارائه ليست بدون پرداخت ماليات
+    if s == 10387:
+        return "07"	  # 104	پرداخت خزانه
+    if s == 10708:
+        return "01"	   #	104	چک شخصي
+    if s == 10709:
+        return "02"	   #	104	پرداخت با کارت اعتباري
+    if s == 10710:
+        return "03"  	#	104	انتقال بانکي
+    if s == 10711:
+        return "04"	#	104	سفته
+    if s == 10712:
+        return "05"	#	104	چک تضمين شده
+    return ""
+
+
 v2x["salary_payment_art_86"] = bool_filler
-v2x["allocation_payment_jornal"] = a_date_filler
+v2x["allocation_payment_journal"] = a_date_filler
 v2x["salary_payment_note_86"] = bool_filler
 v2x["return_month"] = return_month_filler
 v2x["identification_info_changed"] = identification_info_changed_filler
@@ -245,13 +335,13 @@ v2x["last_month_salary"] = bool_filler
 v2x["work_end_date"] = a_date_filler
 v2x["employee_status"] = employee_status_filler
 v2x["payment_done_by_original_provision_wage_payer"] = bool_filler
-
+v2x["paid_type"] = paid_type_filler
+v2x["currency_type"] = currency_type_filler
+v2x["housing_flag"] = housing_flag_filler
+v2x["vehicle_flag"] = vehicle_flag_filler
 v2x["end_month_salary"] = bool_filler
 v2x["identification_info_changed_t4"] = bool_filler
-
-
-def cnv(s):
-    pass
-
-v2x["foo"] = cnv
+v2x["payment_type"] = payment_type_filler
+# banks
+v2x["slip_date"] = a_date_filler
 

@@ -72,6 +72,12 @@ join Lists on Salary.ListId=Lists.Id
 join CompEmp on CompEmp.Id=Salary.CompEmpId
 join Employee on Employee.Id=CompEmp.EmployeeId
 """
+
+payments_query = """
+select PaymentId, BankId, ShobeName, PaidDate, GhabzNo, MablagPardakhti, KhazanehMablagh
+from Lists
+where UserId=?
+"""
 # print("Query is: ", query)
 print("Employee query is: ", employee_query)
 
@@ -133,7 +139,32 @@ def fill_employee(employee_element):
     return elements
 
 
+def fill_payments(payment_element, employer_id):
+    csr.execute(payments_query, [employer_id])
+    payments_rows = csr.fetchall()
+    elements = []
+    for payment_row in payments_rows:
+        element = copy.deepcopy(payment_element)
+        for child in element:
+            tag = child.tag
+            if tag == "payment_type":
+                child.text = convert(payment_row[0], tag)
+            if tag == "bank":
+                child.text = convert(payment_row[1], tag)
+            if tag == "branch":
+                child.text = convert(payment_row[2], tag)
+            if tag == "slip_date":
+                child.text = convert(payment_row[3], tag)
+            if tag == "slip_number":
+                child.text = convert(payment_row[4], tag)
+            if tag == "amount":
+                child.text = convert(payment_row[5], tag)
+        elements.append(element)
+    return elements
+
+
 def fill_xml(row, file_name):
+    employer_id = row[len(row)-1]
     tree = Elm.parse("E:\\Projects\\FRM32 Mapping\\FRM32_1395.xml")
     r = tree.getroot()
     ret = None
@@ -144,13 +175,19 @@ def fill_xml(row, file_name):
 
     col_index = 0
     appendee_employee = []
+    appendee_payments = []
     for ch in ret:
         t = ch.tag.strip()
+        # special tags
         if t == "table2_employees_demographic_data":
             chcopy = copy.deepcopy(ch)
             ret.remove(ch)
             appendee_employee = fill_employee(chcopy)
             continue
+        elif t == "table2_payments_made_to_inta":
+            chcopy = copy.deepcopy(ch)
+            ret.remove(ch)
+            appendee_payments = fill_payments(chcopy, employer_id)
         col = ""
         if t in data_to_xml:
             col = data_to_xml[t]
@@ -162,6 +199,8 @@ def fill_xml(row, file_name):
         else:
             continue
     for element in appendee_employee:
+        ret.append(element)
+    for element in appendee_payments:
         ret.append(element)
     tree.write("E:\\Projects\\FRM32 Mapping\\output\\" + str(file_name) + ".xml", encoding="UTF-8", xml_declaration=True)
 
