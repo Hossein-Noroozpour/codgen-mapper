@@ -316,6 +316,72 @@ def payment_type_filler(s):
     return ""
 
 
+def bank_filler(s):
+    if s is None or len(str(s).strip()) == 0:
+        return ""
+    if s == 7904:
+        return "BEDIRA"
+    if s == 7931:
+        return "BREFAH"
+    if s == 8139:
+        return "BEGHTE"
+    if s == 8182:
+        return "BINDMI"
+    if s == 8256:
+        return 'BMASKA'
+    if s == 8276:
+        return 'BKSINA'
+    if s == 8366:
+        return 'BSADER'
+    if s == 8506:
+        return 'BMELLI'
+    if s == 8604:
+        return 'BKESHA'
+    if s == 8715:
+        return 'BSEPAH'
+    if s == 8761:
+        return 'BPASAR'
+    if s == 8815:
+        return 'BMELLA'
+    if s == 8835:
+        return 'BCDEVE'
+    if s == 8892:
+        return 'BNKTAT'
+    if s == 9074:
+        return 'BKARAF'
+    if s == 9226:
+        return 'BNKDAY'
+    if s == 9463:
+        return 'BKPOST'
+    if s == 9477:
+        return ''
+    if s == 9572:
+        return 'BSARMA'
+    if s == 9579:
+        return ''
+    if s == 9840:
+        return 'BKCITY'
+    if s == 10071:
+        return 'BTEJAR'
+    if s == 10112:
+        return 'BSAMAN'
+    if s == 10127:
+        return 'BPARSI'
+    if s == 10190:
+        return 'BANSAR'
+    if s == 10733:
+        return 'BCENTR'
+    if s == 10734:
+        return 'BGHARZ'
+    if s == 10735:
+        return 'BHEKMA'
+    if s == 10736:
+        return 'BTOURI'
+    if s == 10737:
+        return ''
+    return ''
+
+
 v2x["salary_payment_art_86"] = bool_filler
 v2x["allocation_payment_journal"] = a_date_filler
 v2x["salary_payment_note_86"] = bool_filler
@@ -342,6 +408,5 @@ v2x["vehicle_flag"] = vehicle_flag_filler
 v2x["end_month_salary"] = bool_filler
 v2x["identification_info_changed_t4"] = bool_filler
 v2x["payment_type"] = payment_type_filler
-# banks
+v2x["bank"] = bank_filler
 v2x["slip_date"] = a_date_filler
-
