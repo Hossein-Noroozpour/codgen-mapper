@@ -5,7 +5,7 @@ import pypyodbc
 import copy
 import convertors
 
-source_xml_file = "E:\\Projects\\FRM32 Mapping\\FRM32_1395-xsd-version.xml"
+source_xml_file = "E:\\Projects\\FRM32 Mapping\\FRM32_1395-exp-2.xml"
 
 con = pypyodbc.connect('Driver={SQL Server};Server=ITS-H-NOROUZPOU\SQLEXPRESS;Database=Eris;uid=sa;pwd=123456')
 csr = con.cursor()
@@ -87,7 +87,6 @@ print("Employee query is: ", employee_query)
 
 csr.execute(query)
 
-xml_file = 0
 
 
 def convert(v, t):
@@ -209,6 +208,10 @@ def fill_xml(row, file_name):
     tree.write("E:\\Projects\\FRM32 Mapping\\output\\" + str(file_name) + ".xml", encoding="UTF-8", xml_declaration=True)
 
 rows = csr.fetchall()
+
+print(len(rows))
+
+xml_file = 0
 
 for row in rows:
     fill_xml(row, xml_file)

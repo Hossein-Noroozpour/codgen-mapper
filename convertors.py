@@ -94,7 +94,7 @@ def a_date_filler(s):
             break
         gd -= v
         gm += 1
-    return '%04d' % gy + "-" + '%02d' % gm + "-" + '%02d' % gd
+    return '%04d' % gy + "-" + '%02d' % gm + "-" + '%02d' % gd + "T00:00:00"
 
 
 def return_month_filler(s):
@@ -383,7 +383,7 @@ def bank_filler(s):
 
 
 v2x["salary_payment_art_86"] = bool_filler
-v2x["allocation_payment_jornal"] = a_date_filler
+v2x["allocation_Payment_jornal"] = a_date_filler
 v2x["salary_payment_note_86"] = bool_filler
 v2x["return_month"] = return_month_filler
 v2x["identification_info_changed"] = identification_info_changed_filler
