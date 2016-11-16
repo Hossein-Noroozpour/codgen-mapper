@@ -5,10 +5,11 @@ import pypyodbc
 import copy
 import convertors
 
+source_xml_file = "E:\\Projects\\FRM32 Mapping\\FRM32_1395-xsd-version.xml"
 
 con = pypyodbc.connect('Driver={SQL Server};Server=ITS-H-NOROUZPOU\SQLEXPRESS;Database=Eris;uid=sa;pwd=123456')
 csr = con.cursor()
-root = Elm.parse("E:\\Projects\\FRM32 Mapping\\FRM32_1395.xml").getroot()
+root = Elm.parse(source_xml_file).getroot()
 ret_form = None
 for element in root.iter('RetForm'):
     ret_form = element
@@ -20,11 +21,13 @@ for child in ret_form:
     if tag in data_to_xml:
         column = data_to_xml[tag]
     else:
-        pass
+        print("Tag:", tag, " does not have equivalent in database.")
+        continue
     if column in rec_table:
         select_cols = select_cols + column + ", "
     else:
-        pass
+        print("Column:", column, " not found in database.")
+        continue
 print(select_cols)
 for element in root.iter('table2_employees_demographic_data'):
     ret_form = element
@@ -65,6 +68,7 @@ query = "select distinct " + select_cols + """Employer.Id
 from Salary join Lists on Salary.ListId=Lists.Id join Employer on Employer.Id=Lists.UserId
 order by Employer.Id"""
 
+print("Query string: ", query)
 
 employee_query = "select distinct " + select_employee_columns[:len(select_employee_columns)-2] + """
 from Salary
@@ -165,7 +169,7 @@ def fill_payments(payment_element, employer_id):
 
 def fill_xml(row, file_name):
     employer_id = row[len(row)-1]
-    tree = Elm.parse("E:\\Projects\\FRM32 Mapping\\FRM32_1395.xml")
+    tree = Elm.parse(source_xml_file)
     r = tree.getroot()
     ret = None
 

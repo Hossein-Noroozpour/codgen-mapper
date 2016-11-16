@@ -383,7 +383,7 @@ def bank_filler(s):
 
 
 v2x["salary_payment_art_86"] = bool_filler
-v2x["allocation_payment_journal"] = a_date_filler
+v2x["allocation_payment_jornal"] = a_date_filler
 v2x["salary_payment_note_86"] = bool_filler
 v2x["return_month"] = return_month_filler
 v2x["identification_info_changed"] = identification_info_changed_filler
@@ -392,7 +392,7 @@ v2x["employee_name"] = unicode_filler
 v2x["employee_surname"] = unicode_filler
 v2x["country"] = country_filler
 v2x["employee_degree"] = employee_degree_filler
-v2x["employee_insurance_type"] = employee_insurance_type_filler
+v2x["employee_inssurance_type"] = employee_insurance_type_filler
 v2x["employee_position_fixed_rate"] = bool_filler
 v2x["employment_date"] = a_date_filler
 v2x["employment_type"] = employment_type_filler
@@ -400,7 +400,7 @@ v2x["allocated_area_status"] = allocated_area_status_filler
 v2x["last_month_salary"] = bool_filler
 v2x["work_end_date"] = a_date_filler
 v2x["employee_status"] = employee_status_filler
-v2x["payment_done_by_original_provision_wage_payer"] = bool_filler
+v2x["payment_done_by_original_provision_wagepayer"] = bool_filler
 v2x["paid_type"] = paid_type_filler
 v2x["currency_type"] = currency_type_filler
 v2x["housing_flag"] = housing_flag_filler
