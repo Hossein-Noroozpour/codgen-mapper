@@ -1,7 +1,7 @@
 import map
 import database
 
-fi = open("E:\\Projects\\FRM32 Mapping\\FRM32_1395-exp.xml", "r")
+fi = open("E:\\Projects\\FRM32 Mapping\\FRM32_1395-xsd-version.xml", "r")
 fo = open("E:\\Projects\\FRM32 Mapping\\FRM32_1395-explained.xml", "w")
 
 query_cols = ""
