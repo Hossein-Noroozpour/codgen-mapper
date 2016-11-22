@@ -58,13 +58,15 @@ for child in ret_form:
             column = "Employee.Name"
         elif column == "MoafiatId":
             column = "Employee.MoafiatId"
+        elif column == "Address":
+            column = "Employee.Address"
         select_employee_columns += column + ", "
     else:
         print(column)
         continue
 print(select_employee_columns)
 
-query = "select distinct " + select_cols + """Employer.Id
+query = "select distinct " + select_cols + """NationalCode, Employer.Id, Lists.Id
 from Salary join Lists on Salary.ListId=Lists.Id join Employer on Employer.Id=Lists.UserId
 order by Employer.Id"""
 
@@ -75,18 +77,18 @@ from Salary
 join Lists on Salary.ListId=Lists.Id
 join CompEmp on CompEmp.Id=Salary.CompEmpId
 join Employee on Employee.Id=CompEmp.EmployeeId
+where CompEmp.UserId=? and Lists.Id=?
 """
 
 payments_query = """
 select PaymentId, BankId, ShobeName, PaidDate, GhabzNo, MablagPardakhti, KhazanehMablagh
 from Lists
-where UserId=?
+where UserId=? and Lists.Id=?
 """
 # print("Query is: ", query)
 print("Employee query is: ", employee_query)
 
 csr.execute(query)
-
 
 
 def convert(v, t):
@@ -98,8 +100,8 @@ def convert(v, t):
         return str(v)
 
 
-def fill_employee(employee_element):
-    csr.execute(employee_query)
+def fill_employee(employee_element, employer_id, list_id):
+    csr.execute(employee_query, [employer_id, list_id])
     employee_rows = csr.fetchall()
     elements = []
     for employee_row in employee_rows:
@@ -142,8 +144,8 @@ def fill_employee(employee_element):
     return elements
 
 
-def fill_payments(payment_element, employer_id):
-    csr.execute(payments_query, [employer_id])
+def fill_payments(payment_element, employer_id, list_id):
+    csr.execute(payments_query, [employer_id, list_id])
     payments_rows = csr.fetchall()
     elements = []
     for payment_row in payments_rows:
@@ -167,10 +169,29 @@ def fill_payments(payment_element, employer_id):
 
 
 def fill_xml(row, file_name):
-    employer_id = row[len(row)-1]
+    national_id = row[len(row)-3]
+    employer_id = row[len(row)-2]
+    list_id = row[len(row)-1]
+    row = row[:len(row)-3]
     tree = Elm.parse(source_xml_file)
     r = tree.getroot()
     ret = None
+
+    for e in r.iter('MessageID'):
+        e.text = 'Hossein-Noroozpour-xml-' + str(file_name)
+        break
+
+    for e in r.iter('barCode'):
+        e.text = 'hossein1111130011_' + str(file_name)
+        break
+
+    for e in r.iter('taxpayerId'):
+        e.text = str(national_id).strip()
+        break
+
+    for e in r.iter('officeId'):
+        e.text = str(national_id).strip()
+        break
 
     for e in r.iter('RetForm'):
         ret = e
@@ -185,12 +206,12 @@ def fill_xml(row, file_name):
         if t == "table2_employees_demographic_data":
             chcopy = copy.deepcopy(ch)
             ret.remove(ch)
-            appendee_employee = fill_employee(chcopy)
+            appendee_employee = fill_employee(chcopy, employer_id, list_id)
             continue
         elif t == "table2_payments_made_to_inta":
             chcopy = copy.deepcopy(ch)
             ret.remove(ch)
-            appendee_payments = fill_payments(chcopy, employer_id)
+            appendee_payments = fill_payments(chcopy, employer_id, list_id)
         col = ""
         if t in data_to_xml:
             col = data_to_xml[t]

@@ -244,6 +244,8 @@ def currency_type_filler(s):
         return "GBP"
     if s == 10518:
         return "MOP"
+    if s == 10519:
+        return "UYU"
     if s == 10522:
         return "CLP"
     if s == 10542:
