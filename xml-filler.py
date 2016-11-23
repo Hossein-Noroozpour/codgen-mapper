@@ -67,7 +67,7 @@ for child in ret_form:
         continue
 print(select_employee_columns)
 
-query = "select distinct " + select_cols + """Month, NationalCode, Employer.Id, Lists.Id
+query = "select distinct " + select_cols + """Lists.Hozeh, Month, NationalCode, Employer.Id, Lists.Id
 from Salary join Lists on Salary.ListId=Lists.Id join Employer on Employer.Id=Lists.UserId
 order by Employer.Id"""
 
@@ -164,12 +164,18 @@ def fill_payments(payment_element, employer_id, list_id):
             if tag == "slip_number":
                 child.text = convert(payment_row[4], tag)
             if tag == "amount":
-                child.text = convert(payment_row[5], tag)
+                amount = 0
+                if payment_row[5] is not None:
+                    amount += int(payment_row[5])
+                if payment_row[6] is not None:
+                    amount += int(payment_row[6])
+                child.text = convert(amount, tag)
         elements.append(element)
     return elements
 
 
 def fill_xml(row, file_name):
+    hoze = int(str(row[len(row)-5]).strip())
     tax_period = row[len(row)-4]
     national_id = row[len(row)-3]
     employer_id = row[len(row)-2]
@@ -200,8 +206,11 @@ def fill_xml(row, file_name):
         break
 
     for e in r.iter('officeId'):
-        hoze = 321123
-        e.text = str(offices.offices[int(hoze / 100)])
+        hoze = int(hoze / 100)
+        try:
+            e.text = str(offices.offices[hoze])
+        except KeyError:
+            return False
         break
 
     for e in r.iter('RetForm'):
@@ -248,6 +257,8 @@ print(len(rows))
 xml_file = 0
 
 for row in rows:
-    fill_xml(row, xml_file)
+    res = fill_xml(row, xml_file)
+    if res is not None and not res:
+        continue
     xml_file += 1
     print("file ", xml_file, " done.")
