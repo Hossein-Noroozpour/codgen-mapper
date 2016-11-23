@@ -4,6 +4,7 @@ from map import *
 import pypyodbc
 import copy
 import convertors
+import offices
 
 source_xml_file = "E:\\Projects\\FRM32 Mapping\\FRM32_1395-exp-2.xml"
 
@@ -66,7 +67,7 @@ for child in ret_form:
         continue
 print(select_employee_columns)
 
-query = "select distinct " + select_cols + """NationalCode, Employer.Id, Lists.Id
+query = "select distinct " + select_cols + """Month, NationalCode, Employer.Id, Lists.Id
 from Salary join Lists on Salary.ListId=Lists.Id join Employer on Employer.Id=Lists.UserId
 order by Employer.Id"""
 
@@ -169,10 +170,11 @@ def fill_payments(payment_element, employer_id, list_id):
 
 
 def fill_xml(row, file_name):
+    tax_period = row[len(row)-4]
     national_id = row[len(row)-3]
     employer_id = row[len(row)-2]
     list_id = row[len(row)-1]
-    row = row[:len(row)-3]
+    row = row[:len(row)-4]
     tree = Elm.parse(source_xml_file)
     r = tree.getroot()
     ret = None
@@ -193,6 +195,15 @@ def fill_xml(row, file_name):
         e.text = str(national_id).strip()
         break
 
+    for e in r.iter('taxPeriod'):
+        e.text = str(tax_period).strip()
+        break
+
+    for e in r.iter('officeId'):
+        hoze = 321123
+        e.text = str(offices.offices[int(hoze / 100)])
+        break
+
     for e in r.iter('RetForm'):
         ret = e
         break
@@ -208,7 +219,7 @@ def fill_xml(row, file_name):
             ret.remove(ch)
             appendee_employee = fill_employee(chcopy, employer_id, list_id)
             continue
-        elif t == "table2_payments_made_to_inta":
+        elif t == "table1_payments_made_to_inta":
             chcopy = copy.deepcopy(ch)
             ret.remove(ch)
             appendee_payments = fill_payments(chcopy, employer_id, list_id)
@@ -224,6 +235,8 @@ def fill_xml(row, file_name):
             continue
     for element in appendee_employee:
         ret.append(element)
+    if len(appendee_payments) == 0:
+        raise Exception('Error 0 payment')
     for element in appendee_payments:
         ret.append(element)
     tree.write("E:\\Projects\\FRM32 Mapping\\output\\" + str(file_name) + ".xml", encoding="UTF-8", xml_declaration=True)

@@ -233,6 +233,10 @@ def paid_type_filler(s):
     return str(s).zfill(2)
 
 
+not_found_currency_file = open("not found currencies.txt", "w")
+not_found_currency_set = set()
+
+
 def currency_type_filler(s):
     if s is None or len(str(s).strip()) == 0:
         return ""
@@ -268,7 +272,9 @@ def currency_type_filler(s):
         return "TJS"
     if s == 10661:
         return "EUR"
-    print("Unknown currency, code is:", s)
+    if s in not_found_currency_set:
+        not_found_currency_set.add(s)
+        not_found_currency_file.write(str(s) + "\n")
     return ""
     # if s == :
     #     return ""
