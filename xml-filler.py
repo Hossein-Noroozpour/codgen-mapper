@@ -98,7 +98,7 @@ def convert(v, t):
     try:
         return convertors.v2x[t](v)
     except KeyError:
-        return str(v)
+        return str(v).strip()
 
 
 def fill_employee(employee_element, employer_id, list_id):

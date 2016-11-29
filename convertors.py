@@ -390,9 +390,14 @@ def bank_filler(s):
     return ''
 
 
+def null_filler(s):
+    return ""
+
+
 v2x["salary_payment_art_86"] = bool_filler
 v2x["allocation_Payment_jornal"] = a_date_filler
 v2x["salary_payment_note_86"] = bool_filler
+v2x["type_legal_person"] = null_filler
 v2x["return_month"] = return_month_filler
 v2x["identification_info_changed"] = identification_info_changed_filler
 v2x["nationality"] = nationality_filler
@@ -405,6 +410,7 @@ v2x["employee_position_fixed_rate"] = bool_filler
 v2x["employment_date"] = a_date_filler
 v2x["employment_type"] = employment_type_filler
 v2x["allocated_area_status"] = allocated_area_status_filler
+v2x["type_of_contract"] = employment_type_filler
 v2x["last_month_salary"] = bool_filler
 v2x["work_end_date"] = a_date_filler
 v2x["employee_status"] = employee_status_filler
