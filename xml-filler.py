@@ -174,7 +174,7 @@ def fill_payments(payment_element, employer_id, list_id):
     return elements
 
 
-def fill_xml(row, file_name):
+def fill_xml(row, file_name, row_number):
     hoze = int(str(row[len(row)-5]).strip())
     tax_period = row[len(row)-4]
     national_id = row[len(row)-3]
@@ -248,16 +248,20 @@ def fill_xml(row, file_name):
         raise Exception('Error 0 payment')
     for element in appendee_payments:
         ret.append(element)
-    tree.write("E:\\Projects\\FRM32 Mapping\\output\\" + str(file_name).zfill(9) + "-" + str(employer_id) + ".xml", encoding="UTF-8", xml_declaration=True)
+    tree.write(
+        "E:\\Projects\\FRM32 Mapping\\output\\" + str(file_name).zfill(9) + "-" + "-" + str(row_number).zfill(9) +
+        "-" + str(employer_id).zfill(9) + ".xml", encoding="UTF-8", xml_declaration=True)
 
 rows = csr.fetchall()
 
 print(len(rows))
 
 xml_file = 0
+row_number = 0
 
 for row in rows:
-    res = fill_xml(row, xml_file)
+    res = fill_xml(row, xml_file, row_number)
+    row_number += 1
     if res is not None and not res:
         continue
     xml_file += 1
