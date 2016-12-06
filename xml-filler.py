@@ -248,7 +248,7 @@ def fill_xml(row, file_name):
         raise Exception('Error 0 payment')
     for element in appendee_payments:
         ret.append(element)
-    tree.write("E:\\Projects\\FRM32 Mapping\\output\\" + str(file_name) + ".xml", encoding="UTF-8", xml_declaration=True)
+    tree.write("E:\\Projects\\FRM32 Mapping\\output\\" + str(file_name).zfill(9) + "-" + str(employer_id) + ".xml", encoding="UTF-8", xml_declaration=True)
 
 rows = csr.fetchall()
 
