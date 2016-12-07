@@ -394,6 +394,9 @@ def null_filler(s):
     return ""
 
 
+def payment_done_by_original_provision_wagepayer_filler(s):
+    return "Y"
+
 v2x["salary_payment_art_86"] = bool_filler
 v2x["allocation_Payment_jornal"] = a_date_filler
 v2x["salary_payment_note_86"] = bool_filler
@@ -414,7 +417,7 @@ v2x["type_of_contract"] = employment_type_filler
 v2x["last_month_salary"] = bool_filler
 v2x["work_end_date"] = a_date_filler
 v2x["employee_status"] = employee_status_filler
-v2x["payment_done_by_original_provision_wagepayer"] = bool_filler
+v2x["payment_done_by_original_provision_wagepayer"] = payment_done_by_original_provision_wagepayer_filler
 v2x["paid_type"] = paid_type_filler
 v2x["currency_type"] = currency_type_filler
 v2x["housing_flag"] = housing_flag_filler

@@ -249,7 +249,7 @@ def fill_xml(row, file_name, row_number):
     for element in appendee_payments:
         ret.append(element)
     tree.write(
-        "E:\\Projects\\FRM32 Mapping\\output\\" + str(file_name).zfill(9) + "-" + "-" + str(row_number).zfill(9) +
+        "E:\\Projects\\FRM32 Mapping\\output\\" + str(file_name).zfill(9) + "-" + str(row_number).zfill(9) +
         "-" + str(employer_id).zfill(9) + ".xml", encoding="UTF-8", xml_declaration=True)
 
 rows = csr.fetchall()
