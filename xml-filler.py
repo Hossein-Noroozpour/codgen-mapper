@@ -6,7 +6,7 @@ import copy
 import convertors
 import offices
 
-source_xml_file = "E:\\Projects\\FRM32 Mapping\\FRM32_1395-exp-2.xml"
+source_xml_file = "E:\\Projects\\FRM32-Mapping\\FRM32_1395-exp-2.xml"
 
 con = pypyodbc.connect('Driver={SQL Server};Server=ITS-H-NOROUZPOU\SQLEXPRESS;Database=Eris;uid=sa;pwd=123456')
 csr = con.cursor()
@@ -61,6 +61,8 @@ for child in ret_form:
             column = "Employee.MoafiatId"
         elif column == "Address":
             column = "Employee.Address"
+        elif column == "WorkPlaceStatus":
+            column = "CompEmp.WorkPlaceStatus"
         select_employee_columns += column + ", "
     else:
         print(column)
@@ -68,7 +70,10 @@ for child in ret_form:
 print(select_employee_columns)
 
 query = "select distinct " + select_cols + """Lists.Hozeh, Month, NationalCode, Employer.Id, Lists.Id
-from Salary join Lists on Salary.ListId=Lists.Id join Employer on Employer.Id=Lists.UserId
+from Salary
+join Lists on Salary.ListId=Lists.Id
+join Employer on Employer.Id=Lists.UserId
+join EmployerFilter on Employer.NationalCode=EmployerFilter.F1
 order by Employer.Id"""
 
 print("Query string: ", query)
@@ -249,7 +254,7 @@ def fill_xml(row, file_name, row_number):
     for element in appendee_payments:
         ret.append(element)
     tree.write(
-        "E:\\Projects\\FRM32 Mapping\\output\\" + str(file_name).zfill(9) + "-" + str(row_number).zfill(9) +
+        "E:\\Projects\\FRM32-Mapping\\output\\" + str(file_name).zfill(9) + "-" + str(row_number).zfill(9) +
         "-" + str(employer_id).zfill(9) + ".xml", encoding="UTF-8", xml_declaration=True)
 
 rows = csr.fetchall()
