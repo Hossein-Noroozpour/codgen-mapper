@@ -124,7 +124,10 @@ def unicode_filler(s):
 
 def country_filler(s):
     from countries import countries
-    return countries[s]
+    try:
+        return countries[s]
+    except KeyError:
+        return ""
 
 
 def employee_degree_filler(s):
@@ -187,6 +190,22 @@ def employment_type_filler(s):
     if s == 10199:
         return "06"
     return "06"
+
+
+def type_of_contract_filler(s):
+    if s is None:
+        return ""
+    if s == 10988:
+        return "01"
+    if s == 10989:
+        return "02"
+    if s == 10990:
+        return "03"
+    if s == 10991:
+        return "04"
+    if s == 10992:
+        return "05"
+    return ""
 
 
 def allocated_area_status_filler(s):
@@ -413,11 +432,11 @@ v2x["employee_position_fixed_rate"] = bool_filler
 v2x["employment_date"] = a_date_filler
 v2x["employment_type"] = employment_type_filler
 v2x["allocated_area_status"] = allocated_area_status_filler
-v2x["type_of_contract"] = employment_type_filler
+v2x["type_of_contract"] = type_of_contract_filler
 v2x["last_month_salary"] = bool_filler
 v2x["work_end_date"] = a_date_filler
 v2x["employee_status"] = employee_status_filler
-v2x["payment_done_by_original_provision_wagepayer"] = payment_done_by_original_provision_wagepayer_filler
+v2x["payment_done_by_original_provision_wage_payer"] = payment_done_by_original_provision_wagepayer_filler
 v2x["paid_type"] = paid_type_filler
 v2x["currency_type"] = currency_type_filler
 v2x["housing_flag"] = housing_flag_filler

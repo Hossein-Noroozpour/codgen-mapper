@@ -4,4 +4,4 @@ fo.write("countries = dict()\n")
 for l in fi:
     s = l.strip()
     s = s.split("\t")
-    fo.write("countries[" + s[1] + "] = '" + s[0] + "'\n")
+    fo.write("countries[" + s[0] + "] = '" + s[1] + "'\n")
