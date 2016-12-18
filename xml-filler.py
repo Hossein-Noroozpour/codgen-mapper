@@ -219,7 +219,7 @@ def fill_xml(row, file_name, row_number):
 
     for e in r.iter('officeId'):
         import tin2office
-        e.text = str(tin2office.t2o[int(national_id.strip())]) + "-" + str(int(int(hoze) / 100))
+        e.text = str(tin2office.t2o[int(national_id.strip())])  # + "-" + str(int(int(hoze) / 100))
         print(national_id, e.text)
         break
         # hoze = int(hoze / 100)
