@@ -1,6 +1,10 @@
 v2x = dict()
 
 
+def salary_payment_art_86_filler(s):
+    return "Y"
+
+
 def bool_filler(s):
     st = str(s)
     if st == "True" or st == "1" or st == "true" or st == "y" or st == "Y" or st == "yes" or st == "Yes" or st == "t":
@@ -416,11 +420,13 @@ def null_filler(s):
 def payment_done_by_original_provision_wagepayer_filler(s):
     return "Y"
 
-v2x["salary_payment_art_86"] = bool_filler
+v2x["salary_payment_art_86"] = salary_payment_art_86_filler
 v2x["allocation_Payment_jornal"] = a_date_filler
 v2x["salary_payment_note_86"] = bool_filler
 v2x["type_legal_person"] = null_filler
 v2x["return_month"] = return_month_filler
+v2x["cash_noncash_ongoing_uncontinuous_salaries_current_total"] = null_filler
+v2x["net_tax_total"] = null_filler
 v2x["identification_info_changed"] = identification_info_changed_filler
 v2x["nationality"] = nationality_filler
 v2x["employee_name"] = unicode_filler

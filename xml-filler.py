@@ -25,6 +25,12 @@ for child in ret_form:
         print("Tag:", tag, " does not have equivalent in database.")
         continue
     if column in rec_table:
+        if column == "SalaryPayment86":
+            column = "max(case when SalaryPayment86=1 then 1 else 0 end)"
+        elif column == "cash_noncash_ongoing_uncontinuous_salaries_current_tota":
+            column = "sum(cash_noncash_ongoing_uncontinuous_salaries_current_tota)"
+        elif column == "net_tax_total":
+            column = "sum(net_tax_total)"
         select_cols = select_cols + column + ", "
     else:
         print("Column:", column, " not found in database.")
@@ -74,6 +80,7 @@ from Salary
 join Lists on Salary.ListId=Lists.Id
 join Employer on Employer.Id=Lists.UserId
 join EmployerFilter on Employer.NationalCode=EmployerFilter.F1
+group by Employer.Id, Lists.Id, RoznameDate, KarkonanNo, KharejiNo, OwnerShipTypeDesc, Month, Lists.Hozeh, Month, NationalCode
 order by Employer.Id"""
 
 print("Query string: ", query)
@@ -211,12 +218,16 @@ def fill_xml(row, file_name, row_number):
         break
 
     for e in r.iter('officeId'):
-        hoze = int(hoze / 100)
-        try:
-            e.text = str(offices.offices[hoze])
-        except KeyError:
-            return False
+        import tin2office
+        e.text = str(tin2office.t2o[int(national_id.strip())]) + "-" + str(int(int(hoze) / 100))
+        print(national_id, e.text)
         break
+        # hoze = int(hoze / 100)
+        # try:
+        #     e.text = str(offices.offices[hoze])
+        # except KeyError:
+        #     return False
+        # break
 
     for e in r.iter('RetForm'):
         ret = e
