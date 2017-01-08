@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<message>
+	<header>
+		<MessageID>637</MessageID>
+		<MessageSource>externalSystem</MessageSource>
+		<MessageDestination>eris</MessageDestination>
+		<DocumentType>RETIF15</DocumentType>
+		<Action>Upload</Action>
+		<MessageTitle>Upload Return Details</MessageTitle>
+		<SendingDate>1395-01-23T01:27:00Z</SendingDate>
+		<UserID>UserID1</UserID>
+		<Information>Portal Form32</Information>
+	</header>
+	<data>
+		<Return>
+			<header>
+				<ReturnDetails>
+					<barCode />
+					<taxpayerId>100000000000004315</taxpayerId>
+					<officeId>3003</officeId>
+					<taxType>WST</taxType>
+					<branchCode>001</branchCode>
+					<taxYear>1395</taxYear>
+					<taxPeriod />
+					<returnType>FRM32</returnType>
+					<periodFrom />
+					<periodTo />
+					<dueDate/>
+					<fillingDate />
+					<eventDate />
+				</ReturnDetails>
+			</header>
+			<RetForm>
+				<salary_payment_art_86 />
+				<allocation_Payment_jornal />
+				<number_employees />
+				<number_foreion_employees />
+				<salary_payment_note_86 />
+				<allocation_Payment_nonstaff_date />
+				<number_nonstaff />
+				<type_legal_person />
+				<return_month />
+				<table2_employees_demographic_data>
+					<identification_info_changed>Y</identification_info_changed>
+					<nationality />
+					<id />
+					<foreign_national_comprehensive_code />
+					<employee_name />
+					<employee_surname />
+					<country />
+					<residental_address />
+					<postal_code />
+					<employee_id />
+					<employee_degree />
+					<employee_inssurance_type />
+					<inssurance_number />
+					<employee_position />
+					<employee_position_fixed_rate />
+					<employment_date />
+					<employment_type />
+					<worked_city />
+					<allocated_area_status />
+					<type_of_contract />
+					<last_month_salary />
+					<work_end_date />
+					<employee_status />
+					<payment_done_by_original_provision_wage_payer />
+					<number_real_worked_month />
+					<paid_type />
+					<currency_type />
+					<exchange_rate />
+					<sum_ongoing_gross_salary_rial />
+					<sum_ongoing_gross_salary_foreign />
+					<sum_ongoing_gross_salary />
+					<outstanding_payments_received_rial />
+					<outstanding_payments_received_foreign />
+					<outstanding_payments_received />
+					<total_taxable_ongoing_gross_cash_salary />
+					<continous_taxable_income_year_to_previous_month />
+					<total_taxable_ongoing_cash_non_cash />
+					<housing_flag />
+					<housing_benefit />
+					<housing_expense_salary_rial />
+					<housing_expense_salary_foreign />
+					<housing_expense_salary />
+					<housing_expenses_previous_month />
+					<vehicle_flag />
+					<vehicle_benefit />
+					<vehicle_expense_salary_rial/>
+					<vehicle_expense_salary_foreign />
+					<vehicle_expense_salary />
+					<vehicle_expenses_previous_month />
+					<net_housg_vehicle_benefit />
+					<non_cash_payments_rial />
+					<non_cash_payments_foreign />
+					<non_cash_payments />
+					<non_cash_year_to_last_month />
+					<total_non_cash_benefits />
+					<art91_13_exemption />
+					<net_taxable_non_cash_benefits />
+					<standard_annual_income />
+					<expenses_137 />
+					<insurance_expenses_137 />
+					<housing_bank_139 />
+					<other_exemption />
+					<total_exemption_deduction />
+					<sum_exemptions_deductions_to_last_month />
+					<total_cash_noncash_annual />
+					<outcome_tax_table />
+					<continous_tax_year_to_previous_month />
+					<tax_continous_wages_salary_current_month />
+					<amount_extra_tax_paid />
+					<gross_overtime_rial />
+					<gross_overtime_foreign />
+					<gross_overtime />
+					<other_eventual_cash_payments_rial />
+					<other_eventual_cash_payments_foreign />
+					<other_eventual_cash_payments />
+					<bonus_rial />
+					<bonus_foreign />
+					<bonus />
+					<uncontious_outstanding_payments_received_rial />
+					<uncontious_outstanding_payments_received_foreign />
+					<uncontious_outstanding_payments_received />
+					<uncontinous_exceptions />
+					<total_uncontinous_payments />
+					<total_uncontinous_income_year_up_previous_month />
+					<non_cash_uncontinous_benefit_current_month_rial />
+					<non_cash_uncontinous_benefit_current_month_foreign />
+					<non_cash_uncontinous_benefit_current_month />
+					<non_cash_uncontinous_benefit_year_up_previous_month />
+					<art91_13_uncontinous_exemption />
+					<total_uncontinous_income_year_up_current_month_end />
+					<total_continous_uncontinous_annual_income />
+					<total_tax_continous_uncontinous_income />
+					<total_tax_uncontinous_income />
+					<tax_uncontinous_income_the_year_up_previous_month />
+					<tax_uncontinous_wages_salary_current_month />
+					<year_end_bonus_new_year_rial />
+					<year_end_bonus_new_year_foreign />
+					<year_end_bonus_new_year />
+					<total_bonus_start_year_to_previous_month />
+					<exemption />
+					<taxable_new_year_bonus />
+					<total_tax_continous_uncontinous_income_bonus />
+					<tax_continous_uncontinous_income />
+					<tax_bonus_from_first_year_to_month_before />
+					<tax_bonus_year_end_bonuses />
+					<unused_leave_payments_amount_rial />
+					<unused_leave_payments_amount_foreign />
+					<unused_leave_payments_amount />
+					<total_previous_compensation_unused_leave_from_beginig_year_up_last_month />
+					<exemption_91 />
+					<taxable_compensation_unused_leave />
+					<total_tax_continous_uncontinous_income_bonuses_compensation_unused_leave />
+					<tax_continous_uncontinous_income_bonus />
+					<annual_tax_up_month_before_compensation_unused_leave />
+					<tax_compensation_unused_leave />
+					<cash_noncash_ongoing_uncontinuous_salaries_till_current />
+					<cash_noncash_ongoing_uncontinuous_salaries_till_last />
+					<cash_noncash_ongoing_uncontinuous_salaries_current />
+					<total_gross_payable_tax />
+					<art92_less_developed_deductions />
+					<exemption_caluse_14 />
+					<exemption_free_commercial_zone />
+					<foreign_nationals_subject_to_double_taxation_avoidance />
+					<net_tax />
+					<end_month_salary>N</end_month_salary>
+					<payment_title />
+					<exemption_technology_parks_staff />
+				</table2_employees_demographic_data>
+				<cash_noncash_ongoing_uncontinuous_salaries_current_total />
+				<net_tax_total />
+				<table4_nonstaff_payment_data>
+					<identification_info_changed_T4></identification_info_changed_T4>
+					<nationality_T4></nationality_T4>
+					<id_T4 />
+					<foreign_national_comprehensive_code_T4 />
+					<employee_name_T4 />
+					<employee_surname_T4 />
+					<residental_address_T4 />
+					<postal_code_T4 />
+					<payment_title_T4></payment_title_T4>
+					<paid_type_T4></paid_type_T4>
+					<currency_type_T4 />
+					<exchange_rate_T4 />
+					<amount_of_money_paid_or_allocated_Rial_T4></amount_of_money_paid_or_allocated_Rial_T4>
+					<amount_of_money_paid_or_allocated_foreign_currency_T4 />
+					<sum_of_amount_of_money_paid_both_rial_and_foreign_currency_T4 />
+					<payable_tax_T4 />
+				</table4_nonstaff_payment_data>
+				<total_amount_of_money_paid_or_allocated_Rial_T4 />
+				<total_amount_of_money_paid_or_allocated_foreign_currency_T4 />
+				<total_sum_of_amount_of_money_paid_both_rial_and_foreign_currency_T4 />
+				<total_payable_tax_T4 />
+				<table1_payments_made_to_inta>
+					<payment_type></payment_type>
+					<bank></bank>
+					<branch />
+					<slip_date></slip_date>
+					<slip_number></slip_number>
+					<amount></amount>
+				</table1_payments_made_to_inta>
+				<total_amount />
+				<total_taxable_income />
+				<net_tax_due_art86 />
+				<total_sum_of_amount_of_money_paid_both_rial_and_foreign_currency_note86 />
+				<total_payable_tax_note86 />
+				<net_tax_due />
+				<total_paid_tax />
+				<tax_due_payable />
+				<financial_manager_nationality />
+				<financial_manager_name />
+				<financial_manager_surname />
+				<financial_manager_national_no />
+				<financial_manager_comprehensive_code />
+				<auditor_type />
+				<auditor_name />
+				<auditor_surname />
+				<audit_instution_name />
+				<auditor_tin />
+				<auditor_national_no />
+				<auditor_national_id />
+			</RetForm>
+		</Return>
+	</data>
+	</message>
