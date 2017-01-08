@@ -1,3 +1,4 @@
+#!/usr/bin/python3
 from xml.etree import ElementTree as Elm
 from database import rec_table
 from map import *
@@ -5,10 +6,25 @@ import pypyodbc
 import copy
 import convertors
 import offices
+import sys
 
-source_xml_file = "E:\\Projects\\FRM32-Mapping\\FRM32_1395-exp-2.xml"
-
-con = pypyodbc.connect('Driver={SQL Server};Server=ITS-H-NOROUZPOU\SQLEXPRESS;Database=Eris;uid=sa;pwd=123456')
+database = 'Eris'
+username = 'SA'
+if sys.platform == 'linux':
+    source_xml_file = "/media/hossein/EC2E2D3C2E2D00E6/Projects/FRM32-Mapping/FRM32_1395-exp-2.xml"
+    output_xml_directory = "/media/hossein/EC2E2D3C2E2D00E6/Projects/FRM32-Mapping/output-linux"
+    server = 'localhost'
+    password = 'Sqlserver12345678'
+else:
+    source_xml_file = "E:\\Projects\\FRM32-Mapping\\FRM32_1395-exp-2.xml"
+    output_xml_directory = "/media/hossein/EC2E2D3C2E2D00E6/Projects/FRM32-Mapping/output"
+    server = 'ITS-H-NOROUZPOU\SQLEXPRESS'
+    password = '123456'
+#for mac
+#driver = '{/usr/local/lib/libtdsodbc.so}'
+#for linux of windows
+driver= '{ODBC Driver 13 for SQL Server}'
+con = pypyodbc.connect('DRIVER='+driver+';PORT=1433;SERVER='+server+';PORT=1443;DATABASE='+database+';UID='+username+';PWD='+ password)
 csr = con.cursor()
 root = Elm.parse(source_xml_file).getroot()
 ret_form = None
@@ -198,11 +214,11 @@ def fill_xml(row, file_name, row_number):
     ret = None
 
     for e in r.iter('MessageID'):
-        e.text = 'Hossein-Noroozpour-xml-' + str(file_name)
+        e.text = 'generated-xml-' + str(file_name)
         break
 
     for e in r.iter('barCode'):
-        e.text = 'hossein1111130011_' + str(file_name)
+        e.text = '1111130011_' + str(file_name)
         break
 
     for e in r.iter('taxpayerId'):
@@ -228,6 +244,8 @@ def fill_xml(row, file_name, row_number):
         # except KeyError:
         #     return False
         # break
+
+    for e in r.iter('')
 
     for e in r.iter('RetForm'):
         ret = e
@@ -265,7 +283,7 @@ def fill_xml(row, file_name, row_number):
     for element in appendee_payments:
         ret.append(element)
     tree.write(
-        "E:\\Projects\\FRM32-Mapping\\output\\" + str(file_name).zfill(9) + "-" + str(row_number).zfill(9) +
+        output_xml_directory + str(file_name).zfill(9) + "-" + str(row_number).zfill(9) +
         "-" + str(employer_id).zfill(9) + ".xml", encoding="UTF-8", xml_declaration=True)
 
 rows = csr.fetchall()
