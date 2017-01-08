@@ -245,7 +245,9 @@ def fill_xml(row, file_name, row_number):
         #     return False
         # break
 
-    for e in r.iter('')
+    for e in r.iter('fillingDate'):
+        e.text = ""
+        break
 
     for e in r.iter('RetForm'):
         ret = e
