@@ -8,15 +8,17 @@ import convertors
 import offices
 import sys
 
+TAX_YEAR = 1395
+TAX_YEAR_STR = '1395'
+
 database = 'Eris'
 username = 'SA'
+source_xml_file = "sample.xml"
 if sys.platform == 'linux':
-    source_xml_file = "/media/hossein/EC2E2D3C2E2D00E6/Projects/FRM32-Mapping/FRM32_1395-exp-2.xml"
-    output_xml_directory = "/media/hossein/EC2E2D3C2E2D00E6/Projects/FRM32-Mapping/output-linux"
+    output_xml_directory = "/media/hossein/EC2E2D3C2E2D00E6/Projects/FRM32-Mapping/output-linux/"
     server = 'localhost'
     password = 'Sqlserver12345678'
 else:
-    source_xml_file = "E:\\Projects\\FRM32-Mapping\\FRM32_1395-exp-2.xml"
     output_xml_directory = "/media/hossein/EC2E2D3C2E2D00E6/Projects/FRM32-Mapping/output"
     server = 'ITS-H-NOROUZPOU\SQLEXPRESS'
     password = '123456'
@@ -91,28 +93,28 @@ for child in ret_form:
         continue
 print(select_employee_columns)
 
-query = "select distinct " + select_cols + """Lists.Hozeh, Month, NationalCode, Employer.Id, Lists.Id
+query = "select distinct " + select_cols + """PaidDate, List.Hozeh, Month, NationalCode, Employer.Id, List.Id
 from Salary
-join Lists on Salary.ListId=Lists.Id
-join Employer on Employer.Id=Lists.UserId
+join List on Salary.ListId=List.Id
+join Employer on Employer.Id=List.UserId
 join EmployerFilter on Employer.NationalCode=EmployerFilter.F1
-group by Employer.Id, Lists.Id, RoznameDate, KarkonanNo, KharejiNo, OwnerShipTypeDesc, Month, Lists.Hozeh, Month, NationalCode
-order by Employer.Id"""
+group by RoznameDate, KarkonanNo, KharejiNo, OwnerShipTypeDesc, Month, PaidDate, List.Hozeh, Month, NationalCode, Employer.Id, List.Id
+order by Employer.Id, List.Id"""
 
 print("Query string: ", query)
 
 employee_query = "select distinct " + select_employee_columns[:len(select_employee_columns)-2] + """
 from Salary
-join Lists on Salary.ListId=Lists.Id
+join List on Salary.ListId=List.Id
 join CompEmp on CompEmp.Id=Salary.CompEmpId
 join Employee on Employee.Id=CompEmp.EmployeeId
-where CompEmp.UserId=? and Lists.Id=?
+where CompEmp.UserId=? and List.Id=?
 """
 
 payments_query = """
 select PaymentId, BankId, ShobeName, PaidDate, GhabzNo, MablagPardakhti, KhazanehMablagh
-from Lists
-where UserId=? and Lists.Id=?
+from List
+where UserId=? and List.Id=?
 """
 # print("Query is: ", query)
 print("Employee query is: ", employee_query)
@@ -203,14 +205,21 @@ def fill_payments(payment_element, employer_id, list_id):
 
 
 def fill_xml(row, file_name, row_number):
+    paid_date = int(str(row[len(row)-6]).strip())
     hoze = int(str(row[len(row)-5]).strip())
     tax_period = row[len(row)-4]
     national_id = row[len(row)-3]
     employer_id = row[len(row)-2]
     list_id = row[len(row)-1]
-    row = row[:len(row)-4]
+    row = row[:len(row)-5]
     tree = Elm.parse(source_xml_file)
     r = tree.getroot()
+
+    def set_elm_txt(tag, txt):
+        for ee in r.iter(tag):
+            ee.text = txt
+            break
+
     ret = None
 
     for e in r.iter('MessageID'):
@@ -245,9 +254,18 @@ def fill_xml(row, file_name, row_number):
         #     return False
         # break
 
-    for e in r.iter('fillingDate'):
-        e.text = ""
-        break
+    period_from = int(str(tax_period).strip())
+    if period_from < 7:
+        period_to = TAX_YEAR_STR + str(period_from).zfill(2) + "31"
+    elif period_from != 12:
+        period_to = TAX_YEAR_STR + str(period_from).zfill(2) + "30"
+    else:
+        period_to = TAX_YEAR_STR + str(period_from).zfill(2) + "30"
+    period_from = TAX_YEAR_STR + str(period_from).zfill(2) + "01"
+
+    set_elm_txt('periodFrom', convertors.a_date_filler(int(period_from)))
+    set_elm_txt('periodTo', convertors.a_date_filler(int(period_to)))
+    set_elm_txt('fillingDate', convertors.a_date_filler(paid_date))
 
     for e in r.iter('RetForm'):
         ret = e
