@@ -13,7 +13,7 @@ TAX_YEAR_STR = '1395'
 
 database = 'Eris'
 username = 'SA'
-source_xml_file = "sample.xml"
+source_xml_file = "xmls/sample.xml"
 if sys.platform == 'linux':
     output_xml_directory = "/media/hossein/EC2E2D3C2E2D00E6/Projects/FRM32-Mapping/output-linux/"
     server = 'localhost'
@@ -97,7 +97,7 @@ query = "select distinct " + select_cols + """PaidDate, List.Hozeh, Month, Natio
 from Salary
 join List on Salary.ListId=List.Id
 join Employer on Employer.Id=List.UserId
-join EmployerFilter on Employer.NationalCode=EmployerFilter.F1
+join [ErisHelper].[dbo].EmployerFilter on Employer.NationalCode=EmployerFilter.tin
 group by RoznameDate, KarkonanNo, KharejiNo, OwnerShipTypeDesc, Month, PaidDate, List.Hozeh, Month, NationalCode, Employer.Id, List.Id
 order by Employer.Id, List.Id"""
 
@@ -148,14 +148,15 @@ def fill_employee(employee_element, employer_id, list_id):
         element.find('nationality')
         for child in element:
             tag = child.tag.strip()
+            print(tag)
             # nationality
             if tag == "id":
                 if nationality != 1:
-                    element.remove(child)
+                    # element.remove(child)
                     continue
             elif tag == "foreign_national_comprehensive_code":
                 if nationality != 2:
-                    element.remove(child)
+                    # element.remove(child)
                     continue
 
             column = ""
