@@ -6,7 +6,7 @@ def salary_payment_art_86_filler(s):
 
 
 def bool_filler(s):
-    st = str(s)
+    st = str(s).strip()
     if st == "True" or st == "1" or st == "true" or st == "y" or st == "Y" or st == "yes" or st == "Yes" or st == "t":
         return "Y"
     return "N"

@@ -148,15 +148,14 @@ def fill_employee(employee_element, employer_id, list_id):
         element.find('nationality')
         for child in element:
             tag = child.tag.strip()
-            print(tag)
             # nationality
             if tag == "id":
                 if nationality != 1:
-                    # element.remove(child)
+                    child.text = None
                     continue
             elif tag == "foreign_national_comprehensive_code":
                 if nationality != 2:
-                    # element.remove(child)
+                    child.text = None
                     continue
 
             column = ""
@@ -266,7 +265,10 @@ def fill_xml(row, file_name, row_number):
 
     set_elm_txt('periodFrom', convertors.a_date_filler(int(period_from)))
     set_elm_txt('periodTo', convertors.a_date_filler(int(period_to)))
-    set_elm_txt('fillingDate', convertors.a_date_filler(paid_date))
+    # set_elm_txt('fillingDate', convertors.a_date_filler(paid_date))
+    paid_date = str(paid_date)
+    paid_date = paid_date[0:4] + "-" + paid_date[4:6] + "-" + paid_date[6:8]
+    set_elm_txt('fillingDate', paid_date)
 
     for e in r.iter('RetForm'):
         ret = e
