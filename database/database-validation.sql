@@ -137,3 +137,126 @@ join Employee on Employee.Id=CompEmp.EmployeeId
 select count(Id) as KarkonanNoIsZeroOrNull
 from Eris.dbo.List
 where KarkonanNo is null or KarkonanNo = 0
+
+
+SELECT
+	DISTINCT NationalCode
+FROM
+	Eris.dbo.Salary
+	JOIN Eris.dbo.List ON Eris.dbo.Salary.ListId = Eris.dbo.List.Id
+	JOIN Eris.dbo.Employer ON Eris.dbo.Employer.Id = Eris.dbo.List.UserId
+	JOIN ErisHelper.dbo.EmployerFilter ON ErisHelper.dbo.EmployerFilter.tin = Eris.dbo.Employer.NationalCode
+WHERE
+	continous_taxable_income_year_to_previous_month IS NULL
+--	OR continous_taxable_income_year_to_previous_month = 0
+	AND Eris.dbo.List.Month != 1
+ORDER BY
+	NationalCode
+
+
+
+SELECT
+	DISTINCT NationalCode
+FROM
+	Eris.dbo.Salary
+	JOIN Eris.dbo.List ON Eris.dbo.Salary.ListId = Eris.dbo.List.Id
+	JOIN Eris.dbo.Employer ON Eris.dbo.Employer.Id = Eris.dbo.List.UserId
+	JOIN ErisHelper.dbo.EmployerFilter ON ErisHelper.dbo.EmployerFilter.tin = Eris.dbo.Employer.NationalCode
+WHERE
+	housing_expenses_previous_month IS NULL
+--	OR
+	AND Eris.dbo.List.Month != 1
+ORDER BY
+	NationalCode
+
+
+
+SELECT DISTINCT
+	NationalCode
+FROM
+	Eris.dbo.Salary
+	JOIN Eris.dbo.List ON Eris.dbo.Salary.ListId = Eris.dbo.List.Id
+	JOIN Eris.dbo.Employer ON Eris.dbo.Employer.Id = Eris.dbo.List.UserId
+	JOIN ErisHelper.dbo.EmployerFilter ON ErisHelper.dbo.EmployerFilter.tin = Eris.dbo.Employer.NationalCode
+WHERE
+	vehicle_expenses_previous_month IS NULL
+	AND Eris.dbo.List.Month != 1
+ORDER BY
+	NationalCode
+
+
+
+SELECT DISTINCT NationalCode
+FROM Eris.dbo.Salary
+	JOIN Eris.dbo.List ON Eris.dbo.Salary.ListId = Eris.dbo.List.Id
+	JOIN Eris.dbo.Employer ON Eris.dbo.Employer.Id = Eris.dbo.List.UserId
+	JOIN ErisHelper.dbo.EmployerFilter ON ErisHelper.dbo.EmployerFilter.tin = Eris.dbo.Employer.NationalCode
+WHERE
+continous_tax_year_to_previous_month IS NULL
+AND Eris.dbo.List.Month != 1
+ORDER BY NationalCode
+
+
+
+SELECT DISTINCT NationalCode
+FROM Eris.dbo.Salary
+	JOIN Eris.dbo.List ON Eris.dbo.Salary.ListId = Eris.dbo.List.Id
+	JOIN Eris.dbo.Employer ON Eris.dbo.Employer.Id = Eris.dbo.List.UserId
+	JOIN ErisHelper.dbo.EmployerFilter ON ErisHelper.dbo.EmployerFilter.tin = Eris.dbo.Employer.NationalCode
+WHERE
+total_uncontinous_income_year_up_previous_month IS NULL
+AND Eris.dbo.List.Month != 1
+ORDER BY NationalCode
+
+
+
+SELECT DISTINCT NationalCode
+FROM Eris.dbo.Salary
+	JOIN Eris.dbo.List ON Eris.dbo.Salary.ListId = Eris.dbo.List.Id
+	JOIN Eris.dbo.Employer ON Eris.dbo.Employer.Id = Eris.dbo.List.UserId
+	JOIN ErisHelper.dbo.EmployerFilter ON ErisHelper.dbo.EmployerFilter.tin = Eris.dbo.Employer.NationalCode
+WHERE
+non_cash_uncontinous_benefit_year_up_previous_month IS NULL
+AND Eris.dbo.List.Month != 1
+ORDER BY NationalCode
+
+
+
+SELECT DISTINCT NationalCode
+FROM Eris.dbo.Salary
+	JOIN Eris.dbo.List ON Eris.dbo.Salary.ListId = Eris.dbo.List.Id
+	JOIN Eris.dbo.Employer ON Eris.dbo.Employer.Id = Eris.dbo.List.UserId
+	JOIN ErisHelper.dbo.EmployerFilter ON ErisHelper.dbo.EmployerFilter.tin = Eris.dbo.Employer.NationalCode
+WHERE
+tax_uncontinous_income_the_year_up_previous_month IS NULL
+AND Eris.dbo.List.Month != 1
+ORDER BY NationalCode
+
+
+
+SELECT DISTINCT NationalCode
+FROM Eris.dbo.Salary
+	JOIN Eris.dbo.List ON Eris.dbo.Salary.ListId = Eris.dbo.List.Id
+	JOIN Eris.dbo.Employer ON Eris.dbo.Employer.Id = Eris.dbo.List.UserId
+	JOIN ErisHelper.dbo.EmployerFilter ON ErisHelper.dbo.EmployerFilter.tin = Eris.dbo.Employer.NationalCode
+WHERE
+total_bonus_start_year_to_previous_month IS NULL
+AND Eris.dbo.List.Month != 1
+ORDER BY NationalCode
+
+
+
+SELECT
+	DISTINCT NationalCode
+FROM
+	Eris.dbo.Salary JOIN
+	Eris.dbo.List ON Eris.dbo.Salary.ListId = Eris.dbo.List.Id JOIN
+	Eris.dbo.Employer ON Eris.dbo.Employer.Id = Eris.dbo.List.UserId JOIN
+	ErisHelper.dbo.EmployerFilter ON ErisHelper.dbo.EmployerFilter.tin = Eris.dbo.Employer.NationalCode
+WHERE
+	continous_tax_year_to_previous_month IS NULL
+	AND Eris.dbo.List.Month != 1
+--ORDER BY NationalCode
+
+
+
