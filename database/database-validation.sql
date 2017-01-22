@@ -260,3 +260,30 @@ WHERE
 
 
 
+
+SELECT COUNT(DISTINCT Em.Id)
+FROM
+	Eris.dbo.Employee AS Em
+	JOIN Eris.dbo.CompEmp AS Ce ON Ce.EmployeeId = Em.Id
+	JOIN Eris.dbo.Salary AS Sa ON Sa.CompEmpId = Ce.Id
+	JOIN Eris.dbo.List AS Li ON Li.Id = Sa.ListId
+WHERE
+	Li.Year = '1395'
+	AND continous_tax_year_to_previous_month != (
+		SELECT SUM(outcome_tax_table)
+		FROM
+			Eris.dbo.Employee
+			JOIN Eris.dbo.CompEmp ON Eris.dbo.CompEmp.EmployeeId = Eris.dbo.Employee.Id
+			JOIN Eris.dbo.Salary ON Eris.dbo.Salary.CompEmpId = Eris.dbo.CompEmp.Id
+			JOIN Eris.dbo.List AS Li2 ON Li2.Id = Eris.dbo.Salary.ListId
+		WHERE
+			Li.Month > Li2.Month)
+	OR (SELECT COUNT(DISTINCT Li4.Month) FROM Eris.dbo.List AS Li4) = (
+		SELECT COUNT(DISTINCT Li3.Month)
+		FROM
+			Eris.dbo.Employee
+			JOIN Eris.dbo.CompEmp ON Eris.dbo.CompEmp.EmployeeId = Eris.dbo.Employee.Id
+			JOIN Eris.dbo.Salary ON Eris.dbo.Salary.CompEmpId = Eris.dbo.CompEmp.Id
+			JOIN Eris.dbo.List AS Li3 ON Li3.Id = Eris.dbo.Salary.ListId
+		WHERE
+			outcome_tax_table = 0 OR outcome_tax_table IS NULL)
