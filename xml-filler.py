@@ -227,7 +227,7 @@ def fill_xml(row, file_name, row_number):
         break
 
     for e in r.iter('barCode'):
-        e.text = '1111130011_' + str(file_name)
+        e.text = '19754456_' + str(file_name)
         break
 
     for e in r.iter('taxpayerId'):
