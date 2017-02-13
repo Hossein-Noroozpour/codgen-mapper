@@ -418,7 +418,7 @@ def null_filler(s):
 
 
 def payment_done_by_original_provision_wagepayer_filler(s):
-    return "Y"
+    return bool_filler(s)
 
 v2x["salary_payment_art_86"] = salary_payment_art_86_filler
 v2x["allocation_Payment_jornal"] = a_date_filler
