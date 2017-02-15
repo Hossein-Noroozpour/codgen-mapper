@@ -6,11 +6,14 @@ import pypyodbc
 import copy
 import convertors
 import offices
+import random
+import string
 import sys
 
 TAX_YEAR = 1395
 TAX_YEAR_STR = '1395'
-
+BARCODE_FORMAT = string.digits
+BARCODE = ''.join(random.SystemRandom().choice(BARCODE_FORMAT) for _ in range(10)) + '_'
 database = 'Eris'
 username = 'SA'
 source_xml_file = "xmls/sample.xml"
@@ -227,7 +230,7 @@ def fill_xml(row, file_name, row_number):
         break
 
     for e in r.iter('barCode'):
-        e.text = '19754456_' + str(file_name)
+        e.text = BARCODE + str(file_name)
         break
 
     for e in r.iter('taxpayerId'):
