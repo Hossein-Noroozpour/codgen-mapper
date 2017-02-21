@@ -96,13 +96,22 @@ for child in ret_form:
         continue
 print(select_employee_columns)
 
-query = "select distinct " + select_cols + """PaidDate, List.Hozeh, Month, NationalCode, Employer.Id, List.Id
-from Salary
+CREATE_FAKE_TINS = False
+if CREATE_FAKE_TINS:
+    select_tins = "InstEmployers.fake_tin"
+else:
+    select_tins = "InstEmployers.real_tin"
+
+query = "select distinct " + select_cols + """PaidDate, List.Hozeh, Month, """ + \
+        select_tins + """, Employer.Id, List.Id
+        from Salary
 join List on Salary.ListId=List.Id
 join Employer on Employer.Id=List.UserId
 join [ErisHelper].[dbo].EmployerFilter on Employer.NationalCode=EmployerFilter.tin
-group by RoznameDate, KarkonanNo, KharejiNo, OwnerShipTypeDesc, Month, PaidDate, List.Hozeh, Month, NationalCode, Employer.Id, List.Id
-order by Employer.Id, List.Id"""
+join [ErisHelper].[dbo].InstEmployers on EmployerFilter.tin = InstEmployers.real_tin
+group by RoznameDate, KarkonanNo, KharejiNo, OwnerShipTypeDesc, Month, PaidDate, List.Hozeh, Month, """ +\
+        select_tins + """, Employer.Id, List.Id
+order by """ + select_tins + """, List.Id"""
 
 print("Query string: ", query)
 
