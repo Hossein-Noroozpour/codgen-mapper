@@ -97,6 +97,7 @@ for child in ret_form:
 print(select_employee_columns)
 
 CREATE_FAKE_TINS = True
+FAKE_OFFICE_ID = "1753"
 if CREATE_FAKE_TINS:
     select_tins = "InstEmployers.fake_tin"
 else:
@@ -246,10 +247,6 @@ def fill_xml(row, file_name, row_number):
         e.text = str(national_id).strip()
         break
 
-    for e in r.iter('officeId'):
-        e.text = str(national_id).strip()
-        break
-
     for e in r.iter('taxPeriod'):
         e.text = str(tax_period).strip()
         break
@@ -259,7 +256,7 @@ def fill_xml(row, file_name, row_number):
         try:
             e.text = str(tin2office.t2o[int(national_id.strip())])  # + "-" + str(int(int(hoze) / 100))
         except KeyError:
-            e.text = "1753"
+            e.text = FAKE_OFFICE_ID
         print(national_id, e.text)
         break
         # hoze = int(hoze / 100)
