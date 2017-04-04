@@ -96,23 +96,30 @@ for child in ret_form:
         continue
 print(select_employee_columns)
 
-CREATE_FAKE_TINS = True
+CREATE_FAKE_TINS = False
 FAKE_OFFICE_ID = "1753"
+query = None
 if CREATE_FAKE_TINS:
-    select_tins = "InstEmployers.fake_tin"
+    query = "select distinct " + select_cols + """PaidDate, List.Hozeh, Month,
+    InstEmployers.fake_tin, InstEmployers.fake_office, Employer.Id, List.Id
+    from Salary
+       join List on Salary.ListId=List.Id
+       join Employer on Employer.Id=List.UserId
+       join [ErisHelper].[dbo].EmployerFilter on Employer.NationalCode=EmployerFilter.tin
+       join [ErisHelper].[dbo].InstEmployers on EmployerFilter.tin = InstEmployers.real_tin
+       group by RoznameDate, KarkonanNo, KharejiNo, OwnerShipTypeDesc, Month, PaidDate, List.Hozeh, Month,
+       InstEmployers.fake_tin, InstEmployers.fake_office, Employer.Id, List.Id
+       order by InstEmployers.fake_tin, List.Id"""
 else:
-    select_tins = "InstEmployers.real_tin"
-
-query = "select distinct " + select_cols + """PaidDate, List.Hozeh, Month, """ + \
-        select_tins + """, Employer.Id, List.Id
+    query = "select distinct " + select_cols + """PaidDate, List.Hozeh, Month,
+        EmployerFilter.tin, EmployerFilter.office, Employer.Id, List.Id
         from Salary
-join List on Salary.ListId=List.Id
-join Employer on Employer.Id=List.UserId
-join [ErisHelper].[dbo].EmployerFilter on Employer.NationalCode=EmployerFilter.tin
-join [ErisHelper].[dbo].InstEmployers on EmployerFilter.tin = InstEmployers.real_tin
-group by RoznameDate, KarkonanNo, KharejiNo, OwnerShipTypeDesc, Month, PaidDate, List.Hozeh, Month, """ +\
-        select_tins + """, Employer.Id, List.Id
-order by """ + select_tins + """, List.Id"""
+        join List on Salary.ListId=List.Id
+        join Employer on Employer.Id=List.UserId
+        join [ErisHelper].[dbo].EmployerFilter on Employer.NationalCode=EmployerFilter.tin
+        group by RoznameDate, KarkonanNo, KharejiNo, OwnerShipTypeDesc, Month, PaidDate, List.Hozeh, Month,
+        EmployerFilter.tin, EmployerFilter.office, Employer.Id, List.Id
+        order by EmployerFilter.tin, List.Id"""
 
 print("Query string: ", query)
 
@@ -218,10 +225,11 @@ def fill_payments(payment_element, employer_id, list_id):
 
 
 def fill_xml(row, file_name, row_number):
-    paid_date = int(str(row[len(row)-6]).strip())
-    hoze = int(str(row[len(row)-5]).strip())
-    tax_period = row[len(row)-4]
-    national_id = row[len(row)-3]
+    paid_date = int(str(row[len(row)-7]).strip())
+    hoze = int(str(row[len(row)-6]).strip())
+    tax_period = row[len(row)-5]
+    national_id = row[len(row)-4]
+    office_id = row[len(row)-3]
     employer_id = row[len(row)-2]
     list_id = row[len(row)-1]
     row = row[:len(row)-5]
@@ -252,19 +260,23 @@ def fill_xml(row, file_name, row_number):
         break
 
     for e in r.iter('officeId'):
-        import tin2office
-        try:
-            e.text = str(tin2office.t2o[int(national_id.strip())])  # + "-" + str(int(int(hoze) / 100))
-        except KeyError:
-            e.text = FAKE_OFFICE_ID
-        print(national_id, e.text)
-        break
+        # version 1
         # hoze = int(hoze / 100)
         # try:
         #     e.text = str(offices.offices[hoze])
         # except KeyError:
         #     return False
         # break
+        # version 2
+        # import tin2office
+        # try:
+        #     e.text = str(tin2office.t2o[int(national_id.strip())])  # + "-" + str(int(int(hoze) / 100))
+        # except KeyError:
+        #     e.text = FAKE_OFFICE_ID
+        # print(national_id, e.text)
+        # break
+        # version 3
+        e.text = office_id
 
     period_from = int(str(tax_period).strip())
     if period_from < 7:
