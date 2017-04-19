@@ -1,38 +1,21 @@
 USE master;
-GO
 IF DB_ID (N'ErisHelper') IS NOT NULL
 DROP DATABASE ErisHelper;
-GO
-create database ErisHelper collate Persian_100_CI_AI;
-GO
-use ErisHelper;
-create table EmployerFilter (
-    tin varchar(255),
-    office varchar(255)
+CREATE DATABASE ErisHelper collate Persian_100_CI_AI;
+USE ErisHelper;
+CREATE TABLE EmployerFilter (
+    tin VARCHAR(255),
+    office VARCHAR(255)
 );
 
-insert into EmployerFilter (tin, office) values
-('14003623812', '2863'),
-('14003720500', '1807'),
-('14003640215', '3688'),
-('0042240654', '2012'),
-('14003624429', '1946'),
-('0042467179', '2008'),
-('1219667048', '1031'),
-('0050067052', '1738'),
-('14003706183', '1766'),
-('14003995570', '1809'),
-('0035175230', '1031'),
-('14003484900', '2034'),
-('14003486862', '1907'),
-('0051189933', '1855'),
-('0050737074', '1816'),
-('14004295548', '1766'),
-('14003957118', '2040');
+INSERT INTO EmployerFilter (tin, office) values
+    ('0056026153', '3688'),
+    ('0559403224', '3688'),
+    ('1380684811', '3688');
+
 
 
 SELECT * FROM ErisHelper.dbo.EmployerFilter;
-
 CREATE TABLE ErisHelper.dbo.InstEmployers;
 INSERT INTO ErisHelper.dbo.InstEmployers (real_tin, fake_tin, real_office, fake_office)
 VALUES

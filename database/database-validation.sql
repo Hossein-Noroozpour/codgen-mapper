@@ -30,7 +30,7 @@ from Salary
 join List on Salary.ListId=List.Id
 join CompEmp on CompEmp.Id=Salary.CompEmpId
 join Employee on Employee.Id=CompEmp.EmployeeId
-where EmployeeMoafiatId is NULL or MoafiatId = 0;
+where Employee.MoafiatId is NULL or Employee.MoafiatId = 0;
 -- According to Email {time: "Tuesday, November 29, 2016 2:25 PM", subject: "FRM32 NULL FIELDS"}
 -- This field can not be null
 select count(Employee.Id) as NumberRealWorkedMonth_IS_NULL_EmployeeIds

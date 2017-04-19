@@ -229,7 +229,7 @@ def fill_xml(row, file_name, row_number):
     hoze = int(str(row[len(row)-6]).strip())
     tax_period = row[len(row)-5]
     national_id = row[len(row)-4]
-    office_id = row[len(row)-3]
+    eris_helper_office = row[len(row)-3]
     employer_id = row[len(row)-2]
     list_id = row[len(row)-1]
     row = row[:len(row)-5]
@@ -276,7 +276,7 @@ def fill_xml(row, file_name, row_number):
         # print(national_id, e.text)
         # break
         # version 3
-        e.text = office_id
+        e.text = eris_helper_office
 
     period_from = int(str(tax_period).strip())
     if period_from < 7:
