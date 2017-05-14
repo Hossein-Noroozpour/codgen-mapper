@@ -141,7 +141,6 @@ FROM
 	JOIN Eris.dbo.Employer AS Em ON Em.Id = Li.UserId
 	JOIN Eris.dbo.CompEmp AS Cm ON Cm.Id = Eris.dbo.Salary.CompEmpId
 	JOIN Eris.dbo.Employee AS Ep ON Cm.EmployeeId = Ep.Id
-	JOIN ErisHelper.dbo.EmployerFilter ON ErisHelper.dbo.EmployerFilter.tin = Em.NationalCode
 WHERE
 	(
 		(continous_taxable_income_year_to_previous_month IS NULL
@@ -184,7 +183,6 @@ FROM
 	JOIN Eris.dbo.Employer AS Em ON Em.Id = Li.UserId
 	JOIN Eris.dbo.CompEmp AS Cm ON Cm.Id = Eris.dbo.Salary.CompEmpId
 	JOIN Eris.dbo.Employee AS Ep ON Cm.EmployeeId = Ep.Id
-	JOIN ErisHelper.dbo.EmployerFilter ON ErisHelper.dbo.EmployerFilter.tin = Em.NationalCode
 WHERE
 	(
 		(
@@ -222,7 +220,6 @@ FROM
 	JOIN Eris.dbo.Employer AS Em ON Em.Id = Li.UserId
 	JOIN Eris.dbo.CompEmp AS Cm ON Cm.Id = Eris.dbo.Salary.CompEmpId
 	JOIN Eris.dbo.Employee AS Ep ON Cm.EmployeeId = Ep.Id
-	JOIN ErisHelper.dbo.EmployerFilter ON ErisHelper.dbo.EmployerFilter.tin = Em.NationalCode
 WHERE
 	(
 		(
@@ -261,7 +258,6 @@ FROM
 	JOIN Eris.dbo.Employer AS Em ON Em.Id = Li.UserId
 	JOIN Eris.dbo.CompEmp AS Cm ON Cm.Id = Eris.dbo.Salary.CompEmpId
 	JOIN Eris.dbo.Employee AS Ep ON Cm.EmployeeId = Ep.Id
-	JOIN ErisHelper.dbo.EmployerFilter ON ErisHelper.dbo.EmployerFilter.tin = Em.NationalCode
 WHERE
 	(
 		(
@@ -300,7 +296,6 @@ FROM
 	JOIN Eris.dbo.Employer AS Em ON Em.Id = Li.UserId
 	JOIN Eris.dbo.CompEmp AS Cm ON Cm.Id = Eris.dbo.Salary.CompEmpId
 	JOIN Eris.dbo.Employee AS Ep ON Cm.EmployeeId = Ep.Id
-	JOIN ErisHelper.dbo.EmployerFilter ON ErisHelper.dbo.EmployerFilter.tin = Em.NationalCode
 WHERE
 	(
 		(
@@ -327,7 +322,7 @@ WHERE
 	)
 ORDER BY
 	NationalCode
--- According to Email: {time: "Sunday, January 22, 2017 10:28 AM", subject: "FRM32-1395"} and spec
+-- According to Meeting: {time: "Sunday, May 14, 2017 11:00 AM", subject: "FRM32-1395"} and spec
 -- This field must be total amount of other field till previous month
 -- Note, this query does not check that the aggregated field is exactly sum of all previous once, but it is checking for
 -- being null, if this query show any results, this mean there is a problem in this spec rule
@@ -339,7 +334,6 @@ FROM
 	JOIN Eris.dbo.Employer AS Em ON Em.Id = Li.UserId
 	JOIN Eris.dbo.CompEmp AS Cm ON Cm.Id = Eris.dbo.Salary.CompEmpId
 	JOIN Eris.dbo.Employee AS Ep ON Cm.EmployeeId = Ep.Id
-	JOIN ErisHelper.dbo.EmployerFilter ON ErisHelper.dbo.EmployerFilter.tin = Em.NationalCode
 WHERE
 	(
 		(
@@ -378,7 +372,6 @@ FROM
 	JOIN Eris.dbo.Employer AS Em ON Em.Id = Li.UserId
 	JOIN Eris.dbo.CompEmp AS Cm ON Cm.Id = Eris.dbo.Salary.CompEmpId
 	JOIN Eris.dbo.Employee AS Ep ON Cm.EmployeeId = Ep.Id
-	JOIN ErisHelper.dbo.EmployerFilter ON ErisHelper.dbo.EmployerFilter.tin = Em.NationalCode
 WHERE
 	(
 		(
@@ -417,7 +410,6 @@ FROM
 	JOIN Eris.dbo.Employer AS Em ON Em.Id = Li.UserId
 	JOIN Eris.dbo.CompEmp AS Cm ON Cm.Id = Eris.dbo.Salary.CompEmpId
 	JOIN Eris.dbo.Employee AS Ep ON Cm.EmployeeId = Ep.Id
-	JOIN ErisHelper.dbo.EmployerFilter ON ErisHelper.dbo.EmployerFilter.tin = Em.NationalCode
 WHERE
 	(
 		(
@@ -444,7 +436,7 @@ WHERE
 	)
 ORDER BY
 	NationalCode
--- According to Email: {time: "Sunday, January 22, 2017 10:28 AM", subject: "FRM32-1395"} and spec
+-- According to Meeting: {time: "Sunday, May 14, 2017 11:00 AM", subject: "FRM32-1395"} and spec
 -- This field must be total amount of other field till previous month
 -- Note, this query does not check that the aggregated field is exactly sum of all previous once, but it is checking for
 -- being null, if this query show any results, this mean there is a problem in this spec rule
@@ -456,7 +448,6 @@ FROM
 	JOIN Eris.dbo.Employer AS Em ON Em.Id = Li.UserId
 	JOIN Eris.dbo.CompEmp AS Cm ON Cm.Id = Eris.dbo.Salary.CompEmpId
 	JOIN Eris.dbo.Employee AS Ep ON Cm.EmployeeId = Ep.Id
-	JOIN ErisHelper.dbo.EmployerFilter ON ErisHelper.dbo.EmployerFilter.tin = Em.NationalCode
 WHERE
 	(
 		(
@@ -465,7 +456,7 @@ WHERE
 		)
 		AND
 		(
-			SELECT SUM(IIF(total_tax_uncontinous_income IS NULL, 0, total_tax_uncontinous_income))
+			SELECT SUM(IIF(tax_uncontinous_wages_salary_current_month IS NULL, 0, tax_uncontinous_wages_salary_current_month))
 			FROM Eris.dbo.Salary
 				JOIN Eris.dbo.List ON Eris.dbo.Salary.ListId = Eris.dbo.List.Id
 				JOIN Eris.dbo.CompEmp ON Eris.dbo.Salary.CompEmpId = Eris.dbo.CompEmp.Id
@@ -495,7 +486,6 @@ FROM
 	JOIN Eris.dbo.Employer AS Em ON Em.Id = Li.UserId
 	JOIN Eris.dbo.CompEmp AS Cm ON Cm.Id = Eris.dbo.Salary.CompEmpId
 	JOIN Eris.dbo.Employee AS Ep ON Cm.EmployeeId = Ep.Id
-	JOIN ErisHelper.dbo.EmployerFilter ON ErisHelper.dbo.EmployerFilter.tin = Em.NationalCode
 WHERE
 	(
 		(total_bonus_start_year_to_previous_month IS NULL
@@ -519,7 +509,7 @@ WHERE
 	)
 ORDER BY
 	NationalCode
--- According to Email: {time: "Sunday, January 22, 2017 10:28 AM", subject: "FRM32-1395"} and spec
+-- According to Meeting: {time: "Sunday, May 14, 2017 11:00 AM", subject: "FRM32-1395"} and spec
 -- This field must be total amount of other field till previous month
 -- Note, this query does not check that the aggregated field is exactly sum of all previous once, but it is checking for
 -- being null, if this query show any results, this mean there is a problem in this spec rule
@@ -531,13 +521,12 @@ FROM
 	JOIN Eris.dbo.Employer AS Em ON Em.Id = Li.UserId
 	JOIN Eris.dbo.CompEmp AS Cm ON Cm.Id = Eris.dbo.Salary.CompEmpId
 	JOIN Eris.dbo.Employee AS Ep ON Cm.EmployeeId = Ep.Id
-	JOIN ErisHelper.dbo.EmployerFilter ON ErisHelper.dbo.EmployerFilter.tin = Em.NationalCode
 WHERE
 	(
 		(tax_bonus_from_first_year_to_month_before IS NULL
 		OR tax_bonus_from_first_year_to_month_before = 0)
 		AND (
-			SELECT SUM(IIF(tax_continous_uncontinous_income IS NULL, 0, tax_continous_uncontinous_income))
+			SELECT SUM(IIF(tax_bonus_year_end_bonuses IS NULL, 0, tax_bonus_year_end_bonuses))
 			FROM Eris.dbo.Salary
 				JOIN Eris.dbo.List ON Eris.dbo.Salary.ListId = Eris.dbo.List.Id
 				JOIN Eris.dbo.CompEmp ON Eris.dbo.Salary.CompEmpId = Eris.dbo.CompEmp.Id
@@ -567,7 +556,6 @@ FROM
 	JOIN Eris.dbo.Employer AS Em ON Em.Id = Li.UserId
 	JOIN Eris.dbo.CompEmp AS Cm ON Cm.Id = Eris.dbo.Salary.CompEmpId
 	JOIN Eris.dbo.Employee AS Ep ON Cm.EmployeeId = Ep.Id
-	JOIN ErisHelper.dbo.EmployerFilter ON ErisHelper.dbo.EmployerFilter.tin = Em.NationalCode
 WHERE
 	(
 		(
@@ -593,7 +581,7 @@ WHERE
 	)
 ORDER BY
 	NationalCode
--- According to Email: {time: "Sunday, January 22, 2017 10:28 AM", subject: "FRM32-1395"} and spec
+-- According to Meeting: {time: "Sunday, May 14, 2017 11:00 AM", subject: "FRM32-1395"} and spec
 -- This field must be total amount of other field till previous month
 -- Note, this query does not check that the aggregated field is exactly sum of all previous once, but it is checking for
 -- being null, if this query show any results, this mean there is a problem in this spec rule
@@ -605,13 +593,12 @@ FROM
 	JOIN Eris.dbo.Employer AS Em ON Em.Id = Li.UserId
 	JOIN Eris.dbo.CompEmp AS Cm ON Cm.Id = Eris.dbo.Salary.CompEmpId
 	JOIN Eris.dbo.Employee AS Ep ON Cm.EmployeeId = Ep.Id
-	JOIN ErisHelper.dbo.EmployerFilter ON ErisHelper.dbo.EmployerFilter.tin = Em.NationalCode
 WHERE
 	(
 		(annual_tax_up_month_before_compensation_unused_leave IS NULL
 		OR annual_tax_up_month_before_compensation_unused_leave = 0)
 		AND (
-			SELECT SUM(IIF(tax_continous_uncontinous_income_bonus IS NULL, 0, tax_continous_uncontinous_income_bonus))
+			SELECT SUM(IIF(tax_compensation_unused_leave IS NULL, 0, tax_compensation_unused_leave))
 			FROM Eris.dbo.Salary
 				JOIN Eris.dbo.List ON Eris.dbo.Salary.ListId = Eris.dbo.List.Id
 				JOIN Eris.dbo.CompEmp ON Eris.dbo.Salary.CompEmpId = Eris.dbo.CompEmp.Id
