@@ -5,7 +5,6 @@ from map import *
 import pypyodbc
 import copy
 import convertors
-import offices
 import random
 import string
 import sys
@@ -17,19 +16,20 @@ BARCODE = ''.join(random.SystemRandom().choice(BARCODE_FORMAT) for _ in range(10
 database = 'Eris'
 username = 'SA'
 source_xml_file = "xmls/sample.xml"
+output_xml_directory = "output/"
 if sys.platform == 'linux':
-    output_xml_directory = "/media/hossein/EC2E2D3C2E2D00E6/Projects/FRM32-Mapping/output-linux/"
     server = 'localhost'
-    password = 'Sqlserver12345678'
+    password = '123456'
 else:
-    output_xml_directory = "/media/hossein/EC2E2D3C2E2D00E6/Projects/FRM32-Mapping/output"
-    server = 'ITS-H-NOROUZPOU\SQLEXPRESS'
+    server = '.\SQLEXPRESS'
     password = '123456'
 #for mac
 #driver = '{/usr/local/lib/libtdsodbc.so}'
 #for linux of windows
 driver= '{ODBC Driver 13 for SQL Server}'
-con = pypyodbc.connect('DRIVER='+driver+';PORT=1433;SERVER='+server+';PORT=1443;DATABASE='+database+';UID='+username+';PWD='+ password)
+connection_string = 'DRIVER=' + driver + ';PORT=1433;SERVER=' + server + ';PORT=1443;DATABASE=' + database + ';UID='
+connection_string = connection_string + username + ';PWD=' + password
+con = pypyodbc.connect(connection_string)
 csr = con.cursor()
 root = Elm.parse(source_xml_file).getroot()
 ret_form = None
@@ -100,24 +100,24 @@ CREATE_FAKE_TINS = False
 FAKE_OFFICE_ID = "1753"
 query = None
 if CREATE_FAKE_TINS:
-    query = "select distinct " + select_cols + """PaidDate, List.Hozeh, Month,
-    InstEmployers.fake_tin, InstEmployers.fake_office, Employer.Id, List.Id
-    from Salary
-       join List on Salary.ListId=List.Id
-       join Employer on Employer.Id=List.UserId
-       join [ErisHelper].[dbo].EmployerFilter on Employer.NationalCode=EmployerFilter.tin
-       join [ErisHelper].[dbo].InstEmployers on EmployerFilter.tin = InstEmployers.real_tin
-       group by RoznameDate, KarkonanNo, KharejiNo, OwnerShipTypeDesc, Month, PaidDate, List.Hozeh, Month,
-       InstEmployers.fake_tin, InstEmployers.fake_office, Employer.Id, List.Id
-       order by InstEmployers.fake_tin, List.Id"""
+    query = "select distinct " + select_cols + """SendDate, List.Hozeh, Month,
+        InstEmployers.fake_tin, InstEmployers.fake_office, Employer.Id, List.Id
+        from Salary
+        join List on Salary.ListId=List.Id
+        join Employer on Employer.Id=List.UserId
+        join [ErisHelper].[dbo].EmployerFilter on Employer.NationalCode=EmployerFilter.tin
+        join [ErisHelper].[dbo].InstEmployers on EmployerFilter.tin = InstEmployers.real_tin
+        group by RoznameDate, KarkonanNo, KharejiNo, OwnerShipTypeDesc, Month, SendDate, List.Hozeh, Month,
+        InstEmployers.fake_tin, InstEmployers.fake_office, Employer.Id, List.Id
+        order by InstEmployers.fake_tin, List.Id"""
 else:
-    query = "select distinct " + select_cols + """PaidDate, List.Hozeh, Month,
+    query = "select distinct " + select_cols + """SendDate, List.Hozeh, Month,
         EmployerFilter.tin, EmployerFilter.office, Employer.Id, List.Id
         from Salary
         join List on Salary.ListId=List.Id
         join Employer on Employer.Id=List.UserId
         join [ErisHelper].[dbo].EmployerFilter on Employer.NationalCode=EmployerFilter.tin
-        group by RoznameDate, KarkonanNo, KharejiNo, OwnerShipTypeDesc, Month, PaidDate, List.Hozeh, Month,
+        group by RoznameDate, KarkonanNo, KharejiNo, OwnerShipTypeDesc, Month, SendDate, List.Hozeh, Month,
         EmployerFilter.tin, EmployerFilter.office, Employer.Id, List.Id
         order by EmployerFilter.tin, List.Id"""
 
@@ -225,7 +225,7 @@ def fill_payments(payment_element, employer_id, list_id):
 
 
 def fill_xml(row, file_name, row_number):
-    paid_date = int(str(row[len(row)-7]).strip())
+    send_date = int(str(row[len(row)-7]).strip())
     hoze = int(str(row[len(row)-6]).strip())
     tax_period = row[len(row)-5]
     national_id = row[len(row)-4]
@@ -289,10 +289,9 @@ def fill_xml(row, file_name, row_number):
 
     set_elm_txt('periodFrom', convertors.a_date_filler(int(period_from)))
     set_elm_txt('periodTo', convertors.a_date_filler(int(period_to)))
-    # set_elm_txt('fillingDate', convertors.a_date_filler(paid_date))
-    paid_date = str(paid_date)
-    paid_date = paid_date[0:4] + "-" + paid_date[4:6] + "-" + paid_date[6:8]
-    set_elm_txt('fillingDate', paid_date)
+    send_date = str(send_date)
+    send_date = send_date[0:4] + "-" + send_date[4:6] + "-" + send_date[6:8]
+    set_elm_txt('fillingDate', send_date)
 
     for e in r.iter('RetForm'):
         ret = e
