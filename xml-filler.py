@@ -128,7 +128,7 @@ from Salary
 join List on Salary.ListId=List.Id
 join CompEmp on CompEmp.Id=Salary.CompEmpId
 join Employee on Employee.Id=CompEmp.EmployeeId
-where CompEmp.UserId=? and List.Id=?
+where List.UserId=? and List.Id=?
 """
 
 payments_query = """
@@ -216,9 +216,9 @@ def fill_payments(payment_element, employer_id, list_id):
             if tag == "amount":
                 amount = 0
                 if payment_row[5] is not None:
-                    amount += int(payment_row[5])
+                    amount += float(payment_row[5])
                 if payment_row[6] is not None:
-                    amount += int(payment_row[6])
+                    amount += float(payment_row[6])
                 child.text = convert(amount, tag)
         elements.append(element)
     return elements
