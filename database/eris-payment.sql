@@ -13,4 +13,5 @@ from
 	join ErisHelper.dbo.tmp as tm on tm.nationalcode = ef.tin
 order by
 	TaxPayerId, Period
+offset (2700) rows fetch next (3600) rows only
 for xml PATH('TACExtPaymentTransaction'), ROOT('Data')
