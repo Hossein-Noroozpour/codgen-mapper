@@ -25,6 +25,12 @@ INSERT INTO EmployerFilter (tin, office) values
     ('10320739811', '3501'),
     ('10320792276', '3501');
 
+
+INSERT INTO EmployerFilter (tin, office)
+SELECT national_code, office_id
+FROM t1 JOIN Eris.dbo.Employer ON Employer.NationalCode = t1.national_code
+
+
 SELECT * FROM ErisHelper.dbo.EmployerFilter;
 CREATE TABLE ErisHelper.dbo.InstEmployers;
 INSERT INTO ErisHelper.dbo.InstEmployers (real_tin, fake_tin, real_office, fake_office)
