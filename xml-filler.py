@@ -19,7 +19,7 @@ source_xml_file = "xmls/sample.xml"
 output_xml_directory = "output/"
 if sys.platform == 'linux':
     server = 'localhost'
-    password = '123456'
+    password = 'Sqlproject1$'
 else:
     server = '.\SQLEXPRESS'
     password = '123456'
