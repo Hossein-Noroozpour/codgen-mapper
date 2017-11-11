@@ -19,13 +19,13 @@ source_xml_file = "xmls/sample.xml"
 output_xml_directory = "output/"
 if sys.platform == 'linux':
     server = 'localhost'
-    password = 'Sqlproject1$'
+    password = 'Sql1$project'
 else:
     server = '.\SQLEXPRESS'
     password = '123456'
 #for mac
 #driver = '{/usr/local/lib/libtdsodbc.so}'
-#for linux of windows
+#for linux or windows
 driver= '{ODBC Driver 13 for SQL Server}'
 connection_string = 'DRIVER=' + driver + ';PORT=1433;SERVER=' + server + ';PORT=1443;DATABASE=' + database + ';UID='
 connection_string = connection_string + username + ';PWD=' + password
@@ -97,6 +97,7 @@ for child in ret_form:
 print(select_employee_columns)
 
 CREATE_FAKE_TINS = False
+FILTER_EMPLOYERS = False
 FAKE_OFFICE_ID = "1753"
 query = None
 if CREATE_FAKE_TINS:
@@ -110,7 +111,7 @@ if CREATE_FAKE_TINS:
         group by RoznameDate, KarkonanNo, KharejiNo, OwnerShipTypeDesc, Month, SendDate, List.Hozeh, Month,
         InstEmployers.fake_tin, InstEmployers.fake_office, Employer.Id, List.Id
         order by InstEmployers.fake_tin, List.Id"""
-else:
+elif FILTER_EMPLOYERS:
     query = "select distinct " + select_cols + """SendDate, List.Hozeh, Month,
         EmployerFilter.tin, EmployerFilter.office, Employer.Id, List.Id
         from Salary
@@ -120,6 +121,21 @@ else:
         group by RoznameDate, KarkonanNo, KharejiNo, OwnerShipTypeDesc, Month, SendDate, List.Hozeh, Month,
         EmployerFilter.tin, EmployerFilter.office, Employer.Id, List.Id
         order by EmployerFilter.tin, List.Id"""
+else:
+    query = """
+SELECT DISTINCT
+    %s SendDate, List.Hozeh, Month, Employer.NationalCode,
+    SUBSTRING(Employer.TaxOfficeCode, 0, 4), Employer.Id, List.Id
+FROM
+    Salary
+    JOIN List ON Salary.ListId = List.Id
+    JOIN Employer ON Employer.Id = List.UserId
+GROUP BY
+    RoznameDate, KarkonanNo, KharejiNo, OwnerShipTypeDesc, Month, SendDate,
+    List.Hozeh, Month, Employer.NationalCode,
+    SUBSTRING(Employer.TaxOfficeCode, 0, 4), Employer.Id, List.Id
+ORDER BY Employer.NationalCode, List.Id
+""" % (select_cols)
 
 print("Query string: ", query)
 
